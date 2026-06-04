@@ -175,7 +175,7 @@
       font-style: normal;
     }
  
-    /* ═══ CAMPOS ═══ */
+    /* ═══ CAMPOS — placeholder del mismo tamaño para usuario y contraseña ═══ */
     .field {
       position: relative;
       margin-bottom: 14px;
@@ -188,7 +188,7 @@
       border: 1.5px solid var(--rose-border);
       border-radius: 14px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.90rem;
+      font-size: 0.85rem;   /* mismo tamaño para ambos inputs */
       font-weight: 400;
       color: var(--text-field);
       outline: none;
@@ -211,7 +211,7 @@
       transform: translateY(-50%);
       background: transparent;
       border: none;
-      font-size: 1.1rem;
+      font-size: 1rem;
       cursor: pointer;
       padding: 6px 4px;
       border-radius: 20px;
@@ -233,6 +233,7 @@
     .field input::placeholder {
       color: var(--text-placeholder);
       font-style: italic;
+      font-size: 0.85rem;   /* mismo tamaño que el texto ingresado */
     }
  
     .field input:focus {
@@ -251,10 +252,10 @@
       user-select: none;
     }
  
-    /* ═══ ERROR — MEJOR LEGIBILIDAD ═══ */
+    /* ═══ ERROR — mejor legibilidad ═══ */
     .error-msg {
       display: none;
-      background: rgba(240, 200, 210, 0.92); /* fondo más cubriente y claro */
+      background: rgba(240, 200, 210, 0.92);
       border: 1px solid #cf8ca3;
       border-radius: 14px;
       padding: 10px 14px;
@@ -276,7 +277,7 @@
       60%       { transform: translateX(5px); }
     }
  
-    /* ═══ BOTÓN — rosa pastel, sin neón ═══ */
+    /* ═══ BOTÓN — rosa pastel ═══ */
     .btn-login {
       width: 100%;
       padding: 14px;
@@ -315,25 +316,29 @@
       box-shadow: 0 2px 10px rgba(232, 180, 199, 0.35);
     }
  
-    /* ═══ ENLACE AYUDA — fondo semitransparente, sin cambiar tipografía ═══ */
+    /* ═══ ENLACE AYUDA — texto reducido para que entre en una sola línea, fondo semitransparente ═══ */
     .help-link {
       display: inline-block;
       text-align: center;
       margin-top: 18px;
-      font-size: 0.78rem;
-      font-weight: 400;
-      font-style: italic;
-      background: rgba(255, 245, 240, 0.7);   /* semitransparente blanco/crema */
+      font-size: 0.7rem;      /* tamaño más pequeño para que quepa en una línea */
+      font-weight: 500;
+      font-style: normal;
+      background: rgba(255, 245, 240, 0.7);
       backdrop-filter: blur(2px);
-      padding: 5px 16px;
+      padding: 5px 14px;
       border-radius: 40px;
       color: var(--rose-link);
       cursor: pointer;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.02em;
       text-decoration: none;
       transition: all 0.2s ease;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
       border: 0.5px solid rgba(255, 210, 200, 0.6);
+      white-space: nowrap;    /* fuerza a que sea una sola línea */
+      max-width: 100%;
+      overflow-x: auto;
+      /* permitir scroll horizontal si es necesario pero con nowrap no rompe */
     }
  
     .help-link:hover {
@@ -370,7 +375,7 @@
     }
  
     /* ══════════════════════════════════════
-       MODAL — SIN MODIFICAR, SOLO VISUAL LIMPIA (no se toca el contenido)
+       MODAL — SIN MODIFICAR (INTACTO)
     ══════════════════════════════════════ */
     .modal-overlay {
       position: fixed;
@@ -463,6 +468,19 @@
       color: var(--rose-accent);
       font-weight: 500;
     }
+ 
+    /* ajuste extra para móviles muy pequeños */
+    @media (max-width: 380px) {
+      .help-link {
+        font-size: 0.65rem;
+        padding: 4px 10px;
+        letter-spacing: 0;
+      }
+      .card-footer {
+        font-size: 0.68rem;
+        padding: 3px 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -502,7 +520,8 @@
  
     <button class="btn-login" id="btnLogin">Iniciar sesión</button>
  
-    <span class="help-link" id="helpLink">Descubrí cómo iniciar sesión tocando acá</span>
+    <!-- Texto más corto y en una sola línea (tamaño reducido para que entre) -->
+    <span class="help-link" id="helpLink">❔ Descubrí cómo iniciar sesión</span>
  
     <p class="card-footer">Hecho solo para vos por Mauro Portillo 🌷</p>
  
@@ -545,11 +564,10 @@
     const modalBox     = document.getElementById('modalBox');
     const togglePassBtn = document.getElementById('togglePasswordBtn');
  
-    // Función para mostrar/ocultar contraseña
+    // Mostrar/ocultar contraseña
     togglePassBtn.addEventListener('click', function() {
       const type = inputPass.getAttribute('type') === 'password' ? 'text' : 'password';
       inputPass.setAttribute('type', type);
-      // Cambiar emoji según estado (opcional pero sutil)
       this.textContent = type === 'password' ? '👁️' : '🙈';
     });
  
@@ -560,7 +578,7 @@
         window.location.href = 'mensajeamilcar.html';
       } else {
         errorMsg.classList.remove('visible');
-        void errorMsg.offsetWidth;  // reiniciar animación
+        void errorMsg.offsetWidth;
         errorMsg.classList.add('visible');
       }
     }
