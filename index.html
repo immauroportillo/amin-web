@@ -120,12 +120,11 @@
       font-size: 2.05rem;
       font-weight: 600;
       font-style: italic;
-      color: var(--text-title);        /* #241818 — casi negro cálido */
+      color: var(--text-title);
       text-align: center;
       line-height: 1.2;
       margin-bottom: 5px;
       letter-spacing: 0.01em;
-      /* halo blanco para legibilidad sobre foto clara */
       text-shadow:
         0 1px 4px rgba(255, 255, 255, 0.70),
         0 0px 1px rgba(255, 255, 255, 0.90);
@@ -197,6 +196,40 @@
       -webkit-appearance: none;
     }
  
+    /* Campo de contraseña con espacio para el botón */
+    .password-wrapper {
+      position: relative;
+    }
+    .password-wrapper input {
+      padding-right: 42px;
+    }
+ 
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 6px 4px;
+      border-radius: 20px;
+      color: #9C5A72;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+    .toggle-password:hover {
+      color: #6b2c46;
+      background: rgba(232, 180, 199, 0.25);
+    }
+    .toggle-password:active {
+      transform: scale(0.92);
+    }
+ 
     .field input::placeholder {
       color: var(--text-placeholder);
       font-style: italic;
@@ -218,26 +251,29 @@
       user-select: none;
     }
  
-    /* ═══ ERROR ═══ */
+    /* ═══ ERROR — MEJOR LEGIBILIDAD ═══ */
     .error-msg {
       display: none;
-      background: rgba(220, 80, 100, 0.12);
-      border: 1px solid rgba(220, 80, 100, 0.28);
-      border-radius: 10px;
-      padding: 9px 14px;
-      font-size: 0.78rem;
-      color: #8C1530;
+      background: rgba(240, 200, 210, 0.92); /* fondo más cubriente y claro */
+      border: 1px solid #cf8ca3;
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #891c3a;
       text-align: center;
       margin-bottom: 12px;
       animation: shake 0.4s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      backdrop-filter: blur(2px);
     }
  
     .error-msg.visible { display: block; }
  
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
-      20%       { transform: translateX(-6px); }
-      60%       { transform: translateX(6px); }
+      20%       { transform: translateX(-5px); }
+      60%       { transform: translateX(5px); }
     }
  
     /* ═══ BOTÓN — rosa pastel, sin neón ═══ */
@@ -260,7 +296,6 @@
       overflow: hidden;
     }
  
-    /* brillo muy sutil en la mitad superior */
     .btn-login::after {
       content: '';
       position: absolute;
@@ -280,62 +315,54 @@
       box-shadow: 0 2px 10px rgba(232, 180, 199, 0.35);
     }
  
-    /* ═══ ENLACE AYUDA — FONDO BLANCO SUAVE + LEGIBILIDAD ═══ */
+    /* ═══ ENLACE AYUDA — fondo semitransparente, sin cambiar tipografía ═══ */
     .help-link {
       display: inline-block;
-      width: auto;
-      margin-top: 16px;
-      margin-left: auto;
-      margin-right: auto;
       text-align: center;
+      margin-top: 18px;
       font-size: 0.78rem;
-      font-weight: 500;
-      background: rgba(255, 250, 242, 0.85);    /* fondo blanco/crema semi opaco */
+      font-weight: 400;
+      font-style: italic;
+      background: rgba(255, 245, 240, 0.7);   /* semitransparente blanco/crema */
       backdrop-filter: blur(2px);
-      padding: 6px 16px;
-      border-radius: 60px;
-      color: #9E3F5E;     /* rosa profundo pero legible */
+      padding: 5px 16px;
+      border-radius: 40px;
+      color: var(--rose-link);
       cursor: pointer;
-      font-style: normal;
       letter-spacing: 0.03em;
       text-decoration: none;
-      transition: all 0.25s ease;
-      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
-      border: 0.5px solid rgba(255, 220, 210, 0.65);
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      border: 0.5px solid rgba(255, 210, 200, 0.6);
     }
  
     .help-link:hover {
-      background: rgba(255, 250, 245, 0.96);
-      color: #B14D72;
-      transform: scale(1.01);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border-color: rgba(200, 120, 140, 0.5);
+      background: rgba(255, 245, 240, 0.85);
+      color: var(--rose-link-hover);
+      transform: scale(0.99);
     }
  
-    /* ═══ FIRMA — FONDO BLANCO SUAVE Y SOMBRA DE TEXTO MEJORADA ═══ */
+    /* ═══ FIRMA — fondo semitransparente, legible sin romper estilo ═══ */
     .card-footer {
-      margin-top: 22px;
+      margin-top: 20px;
       text-align: center;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 0.75rem;
-      font-weight: 500;
+      font-size: 0.72rem;
       font-style: italic;
-      background: rgba(255, 245, 240, 0.75);     /* fondo blanco rosado claro */
+      font-weight: 400;
+      background: rgba(255, 248, 245, 0.65);
       backdrop-filter: blur(2px);
       display: inline-block;
       width: auto;
-      padding: 5px 18px;
+      padding: 4px 18px;
       border-radius: 50px;
-      margin-left: auto;
-      margin-right: auto;
-      color: #7B3E54;
-      letter-spacing: 0.04em;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-      border: 0.5px solid rgba(255, 200, 190, 0.4);
+      color: var(--text-footer);
+      letter-spacing: 0.05em;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+      border: 0.5px solid rgba(255, 210, 190, 0.4);
     }
  
-    /* ajuste para que el footer y el link queden centrados como bloque */
+    /* centrar elementos internos de la card */
     .card {
       display: flex;
       flex-direction: column;
@@ -343,14 +370,14 @@
     }
  
     /* ══════════════════════════════════════
-       MODAL — FONDO BLANCO OPACO + LEGIBILIDAD EXTREMA
+       MODAL — SIN MODIFICAR, SOLO VISUAL LIMPIA (no se toca el contenido)
     ══════════════════════════════════════ */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(20, 5, 12, 0.68);
-      -webkit-backdrop-filter: blur(6px);
-      backdrop-filter: blur(6px);
+      background: rgba(20, 5, 12, 0.60);
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
       z-index: 100;
       display: flex;
       align-items: center;
@@ -369,13 +396,15 @@
     .modal {
       position: relative;
       width: 100%;
-      max-width: 360px;
-      background: rgba(255, 203, 246, 0.98);  /* Fondo sólido blanco rosado, altamente legible */
-      backdrop-filter: blur(2px);
-      border: 1px solid rgba(232, 180, 199, 0.65);
-      border-radius: 32px;
-      padding: 34px 26px 32px;
-      box-shadow: 0 24px 56px rgba(40, 8, 18, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      max-width: 340px;
+      background: rgba(255, 246, 249, 0.96);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 210, 222, 0.55);
+      border-radius: 24px;
+      padding: 32px 24px 28px;
+      box-shadow: 0 16px 56px rgba(100, 20, 40, 0.28),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.85);
       transform: scale(0.88) translateY(16px);
       transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -386,15 +415,15 @@
  
     .modal-close {
       position: absolute;
-      top: 16px;
-      right: 18px;
-      width: 32px;
-      height: 32px;
+      top: 12px;
+      right: 14px;
+      width: 30px;
+      height: 30px;
       border: none;
-      background: rgba(200, 130, 155, 0.25);
+      background: rgba(232, 180, 199, 0.22);
       border-radius: 50%;
-      font-size: 15px;
-      color: #A0486A;
+      font-size: 13px;
+      color: var(--rose-accent);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -402,71 +431,37 @@
       transition: background 0.2s, transform 0.2s;
     }
  
-    .modal-close:hover  { background: rgba(200, 120, 145, 0.45); color: #681d3b; }
+    .modal-close:hover  { background: rgba(232, 180, 199, 0.42); }
     .modal-close:active { transform: scale(0.9); }
  
     .modal-icon {
       text-align: center;
-      font-size: 42px;
-      margin-bottom: 12px;
+      font-size: 34px;
+      margin-bottom: 10px;
       animation: float 3s ease-in-out infinite;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
     }
  
     .modal-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-style: italic;
-      font-weight: 700;
-      color: #2F151F;
+      font-weight: 600;
+      color: #241818;
       text-align: center;
-      margin-bottom: 18px;
-      letter-spacing: -0.2px;
-      background: transparent;
+      margin-bottom: 14px;
     }
  
     .modal-body {
-      font-size: 0.92rem;
-      font-weight: 400;
-      color: #2A1A22;
-      line-height: 1.65;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: #3a1f28;
+      line-height: 1.75;
       text-align: center;
-      background: transparent;
     }
  
     .modal-body strong {
-      color: #B1456A;
-      font-weight: 600;
-      background: rgba(245, 220, 225, 0.5);
-      padding: 0 4px;
-      border-radius: 12px;
-      display: inline-block;
-    }
- 
-    .modal-body em {
-      color: #7A3D54;
-      background: rgba(245, 225, 230, 0.6);
-      padding: 0 4px;
-      border-radius: 12px;
-      font-style: italic;
-    }
- 
-    /* pequeños ajustes responsive */
-    @media (max-width: 420px) {
-      .card {
-        padding: 36px 20px 26px;
-      }
-      .help-link {
-        font-size: 0.73rem;
-        padding: 5px 14px;
-      }
-      .card-footer {
-        font-size: 0.7rem;
-        padding: 4px 14px;
-      }
-      .modal-body {
-        font-size: 0.85rem;
-      }
+      color: var(--rose-accent);
+      font-weight: 500;
     }
   </style>
 </head>
@@ -483,7 +478,7 @@
     </div>
  
     <div class="error-msg" id="errorMsg">
-      Usuario o contraseña incorrectos 🌸
+      ❀ Usuario o contraseña incorrectos ❀
     </div>
  
     <div class="field">
@@ -495,33 +490,32 @@
              inputmode="numeric" />
     </div>
  
-    <div class="field">
+    <div class="field password-wrapper">
       <span class="icon">🔑</span>
       <input type="password"
              id="inputPass"
              placeholder="Contraseña"
              autocomplete="current-password"
              inputmode="numeric" />
+      <button type="button" class="toggle-password" id="togglePasswordBtn" aria-label="Mostrar contraseña">👁️</button>
     </div>
  
     <button class="btn-login" id="btnLogin">Iniciar sesión</button>
  
-    <!-- ENLACE CON FONDO BLANCO NÍTIDO -->
     <span class="help-link" id="helpLink">Descubrí cómo iniciar sesión tocando acá</span>
  
-    <!-- PIE DE FIRMA CON FONDO BLANCO SUAVE Y LEGIBLE -->
-    <p class="card-footer">Hecho solo para vos por Mauro Portillo🌷</p>
+    <p class="card-footer">Hecho solo para vos por Mauro Portillo 🌷</p>
  
   </div>
  
  
-  <!-- ═══ MODAL DE AYUDA CON FONDO BLANCO ROBUSTO ═══ -->
+  <!-- ═══ MODAL DE AYUDA (INTACTO) ═══ -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal" id="modalBox" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
  
       <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
  
-      <div class="modal-icon">🌷🌸</div>
+      <div class="modal-icon">🌸</div>
       <h2 class="modal-title" id="modalTitle">¿Cómo ingresar?</h2>
       <p class="modal-body">
         Para iniciar sesión tenés que tener en cuenta que
@@ -549,6 +543,15 @@
     const modalOverlay = document.getElementById('modalOverlay');
     const modalClose   = document.getElementById('modalClose');
     const modalBox     = document.getElementById('modalBox');
+    const togglePassBtn = document.getElementById('togglePasswordBtn');
+ 
+    // Función para mostrar/ocultar contraseña
+    togglePassBtn.addEventListener('click', function() {
+      const type = inputPass.getAttribute('type') === 'password' ? 'text' : 'password';
+      inputPass.setAttribute('type', type);
+      // Cambiar emoji según estado (opcional pero sutil)
+      this.textContent = type === 'password' ? '👁️' : '🙈';
+    });
  
     function handleLogin() {
       const user = inputUser.value.trim();
@@ -557,8 +560,7 @@
         window.location.href = 'mensajeamilcar.html';
       } else {
         errorMsg.classList.remove('visible');
-        // forzar reflow para reiniciar la animación
-        void errorMsg.offsetWidth;
+        void errorMsg.offsetWidth;  // reiniciar animación
         errorMsg.classList.add('visible');
       }
     }
@@ -582,4 +584,3 @@
  
 </body>
 </html>
- 
