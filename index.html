@@ -173,7 +173,7 @@
       font-style: normal;
     }
  
-    /* ═══ CAMPOS ═══ */
+    /* ═══ CAMPOS — placeholder centrado verticalmente ═══ */
     .field {
       position: relative;
       margin-bottom: 14px;
@@ -193,10 +193,36 @@
       outline: none;
       transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
       -webkit-appearance: none;
+      line-height: 1.2;
+      display: block;
     }
  
     .password-wrapper input {
       padding-right: 75px;
+    }
+ 
+    .field input::placeholder {
+      color: var(--text-placeholder);
+      font-style: italic;
+      font-size: 0.85rem;
+      line-height: 1.2;
+      vertical-align: middle;
+    }
+ 
+    .field input:focus {
+      border-color: var(--rose-accent);
+      background: rgba(255, 252, 254, 0.93);
+      box-shadow: 0 0 0 3px rgba(232, 180, 199, 0.20);
+    }
+ 
+    .field .icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      pointer-events: none;
+      user-select: none;
     }
  
     /* Botón toggle para mostrar/ocultar contraseña */
@@ -253,22 +279,22 @@
       transform: scale(0.92);
     }
  
-    /* Selector de fecha flotante que aparece al hacer clic */
+    /* ═══ SELECTOR DE FECHA FLOTANTE — versión elegante ═══ */
     .floating-date-picker {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
+      background: rgba(20, 5, 12, 0.75);
+      backdrop-filter: blur(8px);
       z-index: 200;
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.2s, visibility 0.2s;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
     }
     
     .floating-date-picker.active {
@@ -277,42 +303,56 @@
     }
     
     .date-picker-container {
-      background: white;
-      border-radius: 28px;
-      padding: 20px;
-      width: 90%;
+      background: rgba(255, 250, 248, 0.98);
+      backdrop-filter: blur(20px);
+      border-radius: 32px;
+      padding: 28px 24px 24px;
+      width: 85%;
       max-width: 320px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6);
       text-align: center;
-      animation: slideUp 0.3s ease;
+      animation: slideUp 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border: 1px solid rgba(232, 180, 199, 0.5);
     }
     
     @keyframes slideUp {
       from {
-        transform: translateY(40px);
+        transform: translateY(30px) scale(0.96);
         opacity: 0;
       }
       to {
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
         opacity: 1;
       }
     }
     
     .date-picker-container h4 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      color: #241818;
-      margin-bottom: 15px;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #2D1822;
+      margin-bottom: 20px;
+      letter-spacing: -0.2px;
     }
     
     .date-picker-container input[type="date"] {
       width: 100%;
-      padding: 12px;
-      border: 1.5px solid var(--rose-border);
-      border-radius: 14px;
+      padding: 14px 12px;
+      background: rgba(255, 245, 240, 0.9);
+      border: 1.5px solid #E8B4C7;
+      border-radius: 20px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 1rem;
-      margin-bottom: 15px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #2D1822;
+      margin-bottom: 20px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    
+    .date-picker-container input[type="date"]:focus {
+      border-color: #c9607a;
+      box-shadow: 0 0 0 3px rgba(201, 96, 122, 0.2);
     }
     
     .date-picker-buttons {
@@ -322,55 +362,39 @@
     
     .date-picker-buttons button {
       flex: 1;
-      padding: 10px;
+      padding: 12px 10px;
       border: none;
       border-radius: 40px;
       font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
     }
     
     .btn-confirm {
-      background: var(--rose-btn);
+      background: #E8B4C7;
       color: white;
+      box-shadow: 0 2px 8px rgba(232, 180, 199, 0.4);
     }
     
     .btn-confirm:hover {
-      background: var(--rose-btn-hover);
+      background: #DFA5BA;
+      transform: scale(0.98);
     }
     
     .btn-cancel {
-      background: #f0e0e5;
+      background: rgba(200, 160, 170, 0.2);
       color: #8C3E60;
+      border: 1px solid rgba(200, 120, 140, 0.3);
     }
     
     .btn-cancel:hover {
-      background: #e6d0d8;
+      background: rgba(200, 160, 170, 0.35);
+      transform: scale(0.98);
     }
  
-    .field input::placeholder {
-      color: var(--text-placeholder);
-      font-style: italic;
-      font-size: 0.85rem;
-    }
- 
-    .field input:focus {
-      border-color: var(--rose-accent);
-      background: rgba(255, 252, 254, 0.93);
-      box-shadow: 0 0 0 3px rgba(232, 180, 199, 0.20);
-    }
- 
-    .field .icon {
-      position: absolute;
-      left: 13px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 15px;
-      pointer-events: none;
-      user-select: none;
-    }
- 
+    /* ═══ ERROR ═══ */
     .error-msg {
       display: none;
       background: rgba(240, 200, 210, 0.92);
@@ -396,6 +420,7 @@
       60%       { transform: translateX(5px); }
     }
  
+    /* ═══ BOTÓN ═══ */
     .btn-login {
       width: 100%;
       padding: 14px;
@@ -434,6 +459,7 @@
       box-shadow: 0 2px 10px rgba(232, 180, 199, 0.35);
     }
  
+    /* ═══ ENLACE AYUDA ═══ */
     .help-link {
       display: inline-block;
       text-align: center;
@@ -461,6 +487,7 @@
       transform: scale(0.99);
     }
  
+    /* ═══ FIRMA ═══ */
     .card-footer {
       margin-top: 20px;
       text-align: center;
@@ -480,6 +507,7 @@
       border: 0.5px solid rgba(255, 210, 190, 0.4);
     }
  
+    /* ═══ MODAL ═══ */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -581,6 +609,10 @@
         font-size: 0.65rem;
         padding: 3px 12px;
       }
+      .date-picker-container {
+        width: 90%;
+        padding: 22px 18px 18px;
+      }
     }
   </style>
 </head>
@@ -627,7 +659,7 @@
  
   </div>
  
-  <!-- Floating Date Picker (funciona en todos lados) -->
+  <!-- Selector de fecha flotante (diseño mejorado) -->
   <div class="floating-date-picker" id="floatingDatePicker">
     <div class="date-picker-container">
       <h4>📅 Seleccioná la fecha</h4>
@@ -686,12 +718,10 @@
       return /^\d{8}$/.test(password);
     }
  
-    // Abrir el selector flotante
     datePickerBtn.addEventListener('click', () => {
       floatingPicker.classList.add('active');
     });
  
-    // Confirmar fecha seleccionada
     confirmDateBtn.addEventListener('click', () => {
       const selectedDate = datePickerInput.value;
       if (selectedDate) {
@@ -700,16 +730,14 @@
         errorMsg.classList.remove('visible');
       }
       floatingPicker.classList.remove('active');
-      datePickerInput.value = ''; // limpiar para la próxima
+      datePickerInput.value = '';
     });
  
-    // Cancelar
     cancelDateBtn.addEventListener('click', () => {
       floatingPicker.classList.remove('active');
       datePickerInput.value = '';
     });
  
-    // Cerrar al hacer clic fuera del contenedor
     floatingPicker.addEventListener('click', (e) => {
       if (e.target === floatingPicker) {
         floatingPicker.classList.remove('active');
