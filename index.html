@@ -173,17 +173,16 @@
       font-style: normal;
     }
  
-    /* ═══ CAMPOS — mismo tamaño para ambos ═══ */
+    /* ═══ CAMPOS ═══ */
     .field {
       position: relative;
       margin-bottom: 14px;
       width: 100%;
     }
  
-    /* Solución clave: el input de usuario también tiene padding derecho para igualar ancho */
     .field input {
       width: 100%;
-      padding: 13px 42px 13px 42px;  /* Mismo padding derecho que el de contraseña (para el ojo) */
+      padding: 13px 42px 13px 42px;
       background: rgba(255, 248, 251, 0.78);
       border: 1.5px solid var(--rose-border);
       border-radius: 14px;
@@ -196,12 +195,12 @@
       -webkit-appearance: none;
     }
  
-    /* El campo de contraseña necesita espacio extra a la derecha para el botón, pero ahora ambos tienen el mismo padding base */
+    /* Campo de fecha (contraseña) */
     .password-wrapper input {
-      padding-right: 42px;  /* espacio para el botón */
+      padding-right: 42px;
     }
  
-    /* El input de usuario también tiene padding derecho, pero como no tiene botón, se ve simétrico */
+    /* Botón toggle para mostrar/ocultar contraseña */
     .toggle-password {
       position: absolute;
       right: 12px;
@@ -228,6 +227,42 @@
       transform: scale(0.92);
     }
  
+    /* Botón selector de fecha (calendario) */
+    .date-picker-btn {
+      position: absolute;
+      right: 45px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 6px 4px;
+      border-radius: 20px;
+      color: #9C5A72;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+    .date-picker-btn:hover {
+      color: #6b2c46;
+      background: rgba(232, 180, 199, 0.25);
+    }
+    .date-picker-btn:active {
+      transform: scale(0.92);
+    }
+ 
+    /* Ocultar el input nativo de fecha (lo usamos solo como selector) */
+    .hidden-date-input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      width: 0;
+      height: 0;
+    }
+ 
     .field input::placeholder {
       color: var(--text-placeholder);
       font-style: italic;
@@ -250,7 +285,7 @@
       user-select: none;
     }
  
-    /* ═══ ERROR — mejor legibilidad ═══ */
+    /* ═══ ERROR ═══ */
     .error-msg {
       display: none;
       background: rgba(240, 200, 210, 0.92);
@@ -315,7 +350,7 @@
       box-shadow: 0 2px 10px rgba(232, 180, 199, 0.35);
     }
  
-    /* ═══ ENLACE AYUDA — texto exacto, sin signos raros, fondo semitransparente ═══ */
+    /* ═══ ENLACE AYUDA ═══ */
     .help-link {
       display: inline-block;
       text-align: center;
@@ -343,7 +378,7 @@
       transform: scale(0.99);
     }
  
-    /* ═══ FIRMA — fondo semitransparente ═══ */
+    /* ═══ FIRMA ═══ */
     .card-footer {
       margin-top: 20px;
       text-align: center;
@@ -363,7 +398,7 @@
       border: 0.5px solid rgba(255, 210, 190, 0.4);
     }
  
-    /* ═══ MODAL — intacto ═══ */
+    /* ═══ MODAL ═══ */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -483,7 +518,7 @@
       ❀ Usuario o contraseña incorrectos ❀
     </div>
  
-    <!-- Campo USUARIO: mismo padding derecho que el campo contraseña para que quede igual de ancho -->
+    <!-- Campo USUARIO -->
     <div class="field">
       <span class="icon">👤</span>
       <input type="text"
@@ -493,27 +528,33 @@
              inputmode="numeric" />
     </div>
  
-    <!-- Campo CONTRASEÑA con botón de visibilidad -->
+    <!-- Campo CONTRASEÑA con selector de fecha + visibilidad -->
     <div class="field password-wrapper">
       <span class="icon">🔑</span>
       <input type="password"
              id="inputPass"
-             placeholder="Contraseña"
-             autocomplete="current-password"
-             inputmode="numeric" />
+             placeholder="Contraseña (ddmmaaaa)"
+             autocomplete="off" />
+      
+      <!-- Botón para abrir selector de fecha (calendario) -->
+      <button type="button" class="date-picker-btn" id="datePickerBtn" aria-label="Seleccionar fecha">📅</button>
+      
+      <!-- Botón para mostrar/ocultar contraseña -->
       <button type="button" class="toggle-password" id="togglePasswordBtn" aria-label="Mostrar contraseña">👁️</button>
+      
+      <!-- Input de tipo date oculto que usamos para el selector -->
+      <input type="date" id="hiddenDateInput" class="hidden-date-input" />
     </div>
  
     <button class="btn-login" id="btnLogin">Iniciar sesión</button>
  
-    <!-- Texto EXACTAMENTE como lo tenías, sin signos extra -->
     <span class="help-link" id="helpLink">Descubrí cómo iniciar sesión</span>
  
     <p class="card-footer">Hecho solo para vos por Mauro Portillo 🌷</p>
  
   </div>
  
-  <!-- MODAL DE AYUDA (intacto) -->
+  <!-- MODAL DE AYUDA -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal" id="modalBox" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
@@ -526,8 +567,9 @@
         <strong>la fecha en que empezamos a hablar</strong>
         en el siguiente formato <strong>ddmmaaaa</strong><br>
         <em>(por ejemplo 24012026 que sería 24 de enero de 2026).</em><br><br>
-        Veremos si te acordás qué fecha importante fue esa 💗
-      </p>
+        📅 <strong>Podés usar el botón del calendario</strong> para seleccionar la fecha fácilmente.<br><br>
+        Veremos si te acordás qué fecha importante fue la fecha que usé como ejemplo 💗
+      <p>
     </div>
   </div>
  
@@ -544,7 +586,38 @@
     const modalClose   = document.getElementById('modalClose');
     const modalBox     = document.getElementById('modalBox');
     const togglePassBtn = document.getElementById('togglePasswordBtn');
+    const datePickerBtn = document.getElementById('datePickerBtn');
+    const hiddenDateInput = document.getElementById('hiddenDateInput');
  
+    // Función para convertir fecha (YYYY-MM-DD) a formato ddmmaaaa
+    function formatDateToDDMMYYYY(dateString) {
+      if (!dateString) return '';
+      const [year, month, day] = dateString.split('-');
+      return `${day}${month}${year}`;
+    }
+ 
+    // Función para validar que la contraseña tenga formato ddmmaaaa
+    function isValidDateFormat(password) {
+      return /^\d{8}$/.test(password);
+    }
+ 
+    // Abrir selector de fecha al hacer clic en el botón 📅
+    datePickerBtn.addEventListener('click', () => {
+      hiddenDateInput.showPicker();
+    });
+ 
+    // Cuando se selecciona una fecha en el calendario oculto
+    hiddenDateInput.addEventListener('change', (e) => {
+      const selectedDate = e.target.value;
+      if (selectedDate) {
+        const formattedDate = formatDateToDDMMYYYY(selectedDate);
+        inputPass.value = formattedDate;
+        // Limpiar mensaje de error si había
+        errorMsg.classList.remove('visible');
+      }
+    });
+ 
+    // Mostrar/ocultar contraseña
     togglePassBtn.addEventListener('click', function() {
       const type = inputPass.getAttribute('type') === 'password' ? 'text' : 'password';
       inputPass.setAttribute('type', type);
@@ -554,6 +627,23 @@
     function handleLogin() {
       const user = inputUser.value.trim();
       const pass = inputPass.value.trim();
+      
+      // Validar formato de fecha (8 números)
+      if (!isValidDateFormat(pass)) {
+        errorMsg.classList.remove('visible');
+        void errorMsg.offsetWidth;
+        errorMsg.classList.add('visible');
+        // Cambiar mensaje temporalmente para indicar formato incorrecto
+        const originalMsg = errorMsg.innerHTML;
+        errorMsg.innerHTML = '❀ Formato incorrecto. Usá ddmmaaaa (8 números) ❀';
+        setTimeout(() => {
+          if (errorMsg.classList.contains('visible')) {
+            errorMsg.innerHTML = originalMsg;
+          }
+        }, 2000);
+        return;
+      }
+      
       if (user === VALID_USER && pass === VALID_PASS) {
         window.location.href = 'mensajeamilcar.html';
       } else {
@@ -567,7 +657,13 @@
  
     [inputUser, inputPass].forEach(input => {
       input.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
-      input.addEventListener('input',   ()  => errorMsg.classList.remove('visible'));
+      input.addEventListener('input', () => {
+        errorMsg.classList.remove('visible');
+        // Restaurar mensaje original si se cambió
+        if (errorMsg.innerHTML !== '❀ Usuario o contraseña incorrectos ❀') {
+          errorMsg.innerHTML = '❀ Usuario o contraseña incorrectos ❀';
+        }
+      });
     });
  
     helpLink.addEventListener('click', () => modalOverlay.classList.add('open'));
