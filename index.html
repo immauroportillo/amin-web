@@ -56,7 +56,6 @@
       position: relative;
     }
  
-    /* overlay muy ligero para no tapar la foto */
     body::before {
       content: '';
       position: fixed;
@@ -71,7 +70,6 @@
       z-index: 0;
     }
  
-    /* ═══ TARJETA — blur 2px, muy transparente ═══ */
     .card {
       position: relative;
       z-index: 1;
@@ -85,6 +83,9 @@
       box-shadow: var(--shadow-card),
                   inset 0 1px 0 rgba(255, 255, 255, 0.22);
       animation: cardIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
  
     @keyframes cardIn {
@@ -92,7 +93,6 @@
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
  
-    /* ✿ flor grande y luminosa */
     .card::before {
       content: '✿';
       position: absolute;
@@ -114,7 +114,6 @@
       50%       { transform: translateX(-50%) translateY(-7px); }
     }
  
-    /* ═══ TÍTULO ═══ */
     .title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 2.05rem;
@@ -155,7 +154,6 @@
       text-shadow: 0 1px 3px rgba(255, 255, 255, 0.55);
     }
  
-    /* ═══ DIVISOR ═══ */
     .divider {
       display: flex;
       align-items: center;
@@ -175,20 +173,22 @@
       font-style: normal;
     }
  
-    /* ═══ CAMPOS — placeholder del mismo tamaño para usuario y contraseña ═══ */
+    /* ═══ CAMPOS — mismo tamaño para ambos ═══ */
     .field {
       position: relative;
       margin-bottom: 14px;
+      width: 100%;
     }
  
+    /* Solución clave: el input de usuario también tiene padding derecho para igualar ancho */
     .field input {
       width: 100%;
-      padding: 13px 18px 13px 42px;
+      padding: 13px 42px 13px 42px;  /* Mismo padding derecho que el de contraseña (para el ojo) */
       background: rgba(255, 248, 251, 0.78);
       border: 1.5px solid var(--rose-border);
       border-radius: 14px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.85rem;   /* mismo tamaño para ambos inputs */
+      font-size: 0.85rem;
       font-weight: 400;
       color: var(--text-field);
       outline: none;
@@ -196,14 +196,12 @@
       -webkit-appearance: none;
     }
  
-    /* Campo de contraseña con espacio para el botón */
-    .password-wrapper {
-      position: relative;
-    }
+    /* El campo de contraseña necesita espacio extra a la derecha para el botón, pero ahora ambos tienen el mismo padding base */
     .password-wrapper input {
-      padding-right: 42px;
+      padding-right: 42px;  /* espacio para el botón */
     }
  
+    /* El input de usuario también tiene padding derecho, pero como no tiene botón, se ve simétrico */
     .toggle-password {
       position: absolute;
       right: 12px;
@@ -233,7 +231,7 @@
     .field input::placeholder {
       color: var(--text-placeholder);
       font-style: italic;
-      font-size: 0.85rem;   /* mismo tamaño que el texto ingresado */
+      font-size: 0.85rem;
     }
  
     .field input:focus {
@@ -267,6 +265,7 @@
       animation: shake 0.4s ease;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       backdrop-filter: blur(2px);
+      width: 100%;
     }
  
     .error-msg.visible { display: block; }
@@ -277,7 +276,7 @@
       60%       { transform: translateX(5px); }
     }
  
-    /* ═══ BOTÓN — rosa pastel ═══ */
+    /* ═══ BOTÓN ═══ */
     .btn-login {
       width: 100%;
       padding: 14px;
@@ -316,17 +315,17 @@
       box-shadow: 0 2px 10px rgba(232, 180, 199, 0.35);
     }
  
-    /* ═══ ENLACE AYUDA — texto reducido para que entre en una sola línea, fondo semitransparente ═══ */
+    /* ═══ ENLACE AYUDA — texto exacto, sin signos raros, fondo semitransparente ═══ */
     .help-link {
       display: inline-block;
       text-align: center;
       margin-top: 18px;
-      font-size: 0.7rem;      /* tamaño más pequeño para que quepa en una línea */
+      font-size: 0.75rem;
       font-weight: 500;
       font-style: normal;
       background: rgba(255, 245, 240, 0.7);
       backdrop-filter: blur(2px);
-      padding: 5px 14px;
+      padding: 5px 16px;
       border-radius: 40px;
       color: var(--rose-link);
       cursor: pointer;
@@ -335,10 +334,7 @@
       transition: all 0.2s ease;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
       border: 0.5px solid rgba(255, 210, 200, 0.6);
-      white-space: nowrap;    /* fuerza a que sea una sola línea */
-      max-width: 100%;
-      overflow-x: auto;
-      /* permitir scroll horizontal si es necesario pero con nowrap no rompe */
+      white-space: nowrap;
     }
  
     .help-link:hover {
@@ -347,7 +343,7 @@
       transform: scale(0.99);
     }
  
-    /* ═══ FIRMA — fondo semitransparente, legible sin romper estilo ═══ */
+    /* ═══ FIRMA — fondo semitransparente ═══ */
     .card-footer {
       margin-top: 20px;
       text-align: center;
@@ -367,16 +363,7 @@
       border: 0.5px solid rgba(255, 210, 190, 0.4);
     }
  
-    /* centrar elementos internos de la card */
-    .card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
- 
-    /* ══════════════════════════════════════
-       MODAL — SIN MODIFICAR (INTACTO)
-    ══════════════════════════════════════ */
+    /* ═══ MODAL — intacto ═══ */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -469,15 +456,13 @@
       font-weight: 500;
     }
  
-    /* ajuste extra para móviles muy pequeños */
     @media (max-width: 380px) {
       .help-link {
-        font-size: 0.65rem;
-        padding: 4px 10px;
-        letter-spacing: 0;
+        font-size: 0.68rem;
+        padding: 4px 12px;
       }
       .card-footer {
-        font-size: 0.68rem;
+        font-size: 0.65rem;
         padding: 3px 12px;
       }
     }
@@ -485,7 +470,6 @@
 </head>
 <body>
  
-  <!-- ═══ TARJETA PRINCIPAL ═══ -->
   <div class="card">
  
     <h1 class="title">Bienvenido Amin <span class="heart">💗</span></h1>
@@ -499,6 +483,7 @@
       ❀ Usuario o contraseña incorrectos ❀
     </div>
  
+    <!-- Campo USUARIO: mismo padding derecho que el campo contraseña para que quede igual de ancho -->
     <div class="field">
       <span class="icon">👤</span>
       <input type="text"
@@ -508,6 +493,7 @@
              inputmode="numeric" />
     </div>
  
+    <!-- Campo CONTRASEÑA con botón de visibilidad -->
     <div class="field password-wrapper">
       <span class="icon">🔑</span>
       <input type="password"
@@ -520,20 +506,17 @@
  
     <button class="btn-login" id="btnLogin">Iniciar sesión</button>
  
-    <!-- Texto más corto y en una sola línea (tamaño reducido para que entre) -->
-    <span class="help-link" id="helpLink">❔ Descubrí cómo iniciar sesión</span>
+    <!-- Texto EXACTAMENTE como lo tenías, sin signos extra -->
+    <span class="help-link" id="helpLink">Descubrí cómo iniciar sesión</span>
  
     <p class="card-footer">Hecho solo para vos por Mauro Portillo 🌷</p>
  
   </div>
  
- 
-  <!-- ═══ MODAL DE AYUDA (INTACTO) ═══ -->
+  <!-- MODAL DE AYUDA (intacto) -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal" id="modalBox" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
- 
       <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
- 
       <div class="modal-icon">🌸</div>
       <h2 class="modal-title" id="modalTitle">¿Cómo ingresar?</h2>
       <p class="modal-body">
@@ -545,10 +528,8 @@
         <em>(por ejemplo 24012026 que sería 24 de enero de 2026).</em><br><br>
         Veremos si te acordás qué fecha importante fue esa 💗
       </p>
- 
     </div>
   </div>
- 
  
   <script>
     const VALID_USER = '6323775';
@@ -564,7 +545,6 @@
     const modalBox     = document.getElementById('modalBox');
     const togglePassBtn = document.getElementById('togglePasswordBtn');
  
-    // Mostrar/ocultar contraseña
     togglePassBtn.addEventListener('click', function() {
       const type = inputPass.getAttribute('type') === 'password' ? 'text' : 'password';
       inputPass.setAttribute('type', type);
