@@ -409,64 +409,86 @@
       letter-spacing: 0.12em;
     }
 
-    /* ─── Sección cierre: layout vertical ─── */
+    /* ─── Sección cierre ─── */
     .letter-dates {
-      margin-top: 40px;
+      margin-top: 44px;
       text-align: center;
       padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
 
+    /* Fila horizontal: fecha ∞ fecha */
     .dates-row {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      gap: 0;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
     }
 
-    /* Símbolo infinito animado — protagonista del cierre */
-    .infinity-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      margin: 10px 0 12px;
+    .date-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255, 240, 245, 0.90);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.35);
+      letter-spacing: 0.10em;
+      white-space: nowrap;
+      flex: 1;
     }
 
+    .date-item:first-child { text-align: right; }
+    .date-item:last-child  { text-align: left;  }
+
+    /* Símbolo infinito animado */
     .infinity-sym {
-      font-size: 5.5rem;        /* antes 2rem — ahora muy prominente */
+      font-size: 3.2rem;
       line-height: 1;
       color: var(--rose-pastel);
       text-shadow:
-        0 0 20px rgba(232, 180, 199, 0.90),
-        0 0 45px rgba(200, 100, 140, 0.55),
-        0 0 80px rgba(200, 100, 140, 0.25);
+        0 0 18px rgba(232, 180, 199, 0.90),
+        0 0 40px rgba(200, 100, 140, 0.55),
+        0 0 70px rgba(200, 100, 140, 0.25);
       animation: infinityPulse 2.8s ease-in-out infinite;
+      flex-shrink: 0;
     }
 
     @keyframes infinityPulse {
       0%, 100% {
         transform: scale(1);
         text-shadow:
-          0 0 18px rgba(232,180,199,0.80),
-          0 0 40px rgba(200,100,140,0.45),
-          0 0 70px rgba(200,100,140,0.20);
+          0 0 16px rgba(232,180,199,0.80),
+          0 0 36px rgba(200,100,140,0.45),
+          0 0 60px rgba(200,100,140,0.20);
       }
       50% {
-        transform: scale(1.08);
+        transform: scale(1.10);
         text-shadow:
-          0 0 28px rgba(232,180,199,1.00),
-          0 0 60px rgba(200,100,140,0.70),
-          0 0 100px rgba(200,100,140,0.35);
+          0 0 26px rgba(232,180,199,1.00),
+          0 0 55px rgba(200,100,140,0.70),
+          0 0 90px rgba(200,100,140,0.35);
       }
     }
 
+    /* "Para siempre" debajo del conjunto */
     .infinity-label {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 0.68rem;
+      font-size: 0.72rem;
       font-style: italic;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: rgba(255, 230, 238, 0.65);
+      color: rgba(255, 230, 238, 0.68);
+      animation: labelAppear 1s ease both;
+    }
+
+    @keyframes labelAppear {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0);   }
     }
 
     /* ═══════════════════════════════════════
@@ -564,14 +586,10 @@
     <div class="letter-dates">
       <div class="dates-row">
         <div class="date-item">11 · 11 · 2025</div>
-
-        <div class="infinity-wrap">
-          <span class="infinity-sym">∞</span>
-          <span class="infinity-label">para siempre</span>
-        </div>
-
+        <span class="infinity-sym">∞</span>
         <div class="date-item">12 · 06 · 2026</div>
       </div>
+      <span class="infinity-label">Para siempre</span>
     </div>
 
     <!-- Footer -->
