@@ -44,14 +44,15 @@
       background-image: url('amininicio.jpeg');
       background-size: cover;
       background-position: center top;
-      background-attachment: fixed;
+      background-attachment: fixed;  /* Fondo fijo, no se mueve */
       background-repeat: no-repeat;
       min-height: 100dvh;
       overflow-x: hidden;
+      overflow-y: auto;              /* Permite scroll si el texto es largo */
       position: relative;
     }
 
-    /* overlay cálido muy sutil */
+    /* overlay cálido muy sutil — también fijo */
     body::before {
       content: '';
       position: fixed;
@@ -80,6 +81,8 @@
       gap: 18px;
       pointer-events: none;
       animation: introFade 0.6s ease both;
+      background: rgba(0, 0, 0, 0.2);  /* sutil para que se vea mejor el sobre */
+      backdrop-filter: blur(2px);
     }
 
     @keyframes introFade {
@@ -223,7 +226,7 @@
 
     @keyframes screenFadeOut {
       from { opacity: 1; }
-      to   { opacity: 0; pointer-events: none; }
+      to   { opacity: 0; visibility: hidden; }
     }
 
     /* ═══════════════════════════════════════
@@ -235,7 +238,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 40px 0 60px;
+      padding: 40px 20px 60px;
+      min-height: 100vh;
       opacity: 0;
       transform: translateY(30px) scaleY(0.94);
       transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
@@ -389,6 +393,7 @@
       align-items: center;
       justify-content: center;
       gap: 16px;
+      flex-wrap: wrap;
     }
 
     .date-item {
@@ -453,6 +458,28 @@
       padding-bottom: 20px;
     }
 
+    /* Ajuste para pantallas muy pequeñas */
+    @media (max-width: 480px) {
+      .letter-inner {
+        padding: 24px 18px 32px;
+      }
+      .letter-body {
+        font-size: 0.98rem;
+        line-height: 1.8;
+      }
+      .letter-title {
+        font-size: 1.6rem;
+      }
+      .dates-row {
+        gap: 12px;
+      }
+      .date-item {
+        font-size: 0.85rem;
+      }
+      .infinity-sym {
+        font-size: 1.7rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -495,12 +522,8 @@
         </div>
 
         <!-- ══════════════════════════════
-             INICIO DEL MENSAJE PERSONAL
-             Reemplazá todo el contenido
-             entre estos comentarios con
-             tu carta real.
+             MENSAJE PERSONAL
         ══════════════════════════════ -->
-        <!-- INICIO DEL MENSAJE PERSONAL -->
         <div class="letter-body">
 
           <p>Hay momentos que uno no sabe bien cómo nombrar. Esos momentos en los que algo cambia de a poco, sin que nadie lo avise, sin que haya una señal clara. Solo de repente te das cuenta de que ya no estás en el mismo lugar que antes.</p>
@@ -518,7 +541,6 @@
           <p>Esto es solo una parte de todo lo que podría decirte. El resto, lo vamos construyendo juntos.</p>
 
         </div>
-        <!-- FIN DEL MENSAJE PERSONAL -->
 
         <!-- Firma -->
         <div class="letter-sign">
@@ -555,7 +577,7 @@
        SECUENCIA DE ANIMACIÓN DE APERTURA
        1. (0ms)    Sobre aparece flotando
        2. (1200ms) Solapa se abre
-       3. (2100ms) Sello desaparece
+       3. (2100ms) Sello desaparece (por la animación)
        4. (2600ms) Intro hace fade out
        5. (3000ms) Carta aparece desplegándose
     ══════════════════════════════════════════ */
@@ -572,6 +594,7 @@
       // Paso 2: hacer fade out de la pantalla intro
       setTimeout(() => {
         introScreen.classList.add('hide');
+        // Opcional: remover del DOM después de la animación
         introScreen.addEventListener('animationend', () => {
           introScreen.style.display = 'none';
         }, { once: true });
