@@ -36,25 +36,30 @@
 
     html {
       scroll-behavior: smooth;
-      height: 100%;
     }
 
     body {
       font-family: 'DM Sans', sans-serif;
-      /* Fondo ESTÁTICO: la imagen no se mueve NUNCA */
       background-color: #2a1018;
-      background-image: url('amininicio.jpeg');
-      background-size: cover;
-      background-position: center center;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-      min-height: 100%;
-      overflow-y: auto;
+      min-height: 100dvh;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* overlay fijo también */
+    /* Imagen de fondo completamente fija — funciona en iOS y Android */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url('amininicio.jpeg');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    /* overlay cálido muy sutil, también fijo */
     body::before {
       content: '';
       position: fixed;
@@ -66,7 +71,7 @@
         rgba(30, 10, 18, 0.16) 100%
       );
       pointer-events: none;
-      z-index: 0;
+      z-index: -1;
     }
 
     /* ═══════════════════════════════════════
@@ -83,8 +88,6 @@
       gap: 18px;
       pointer-events: none;
       animation: introFade 0.6s ease both;
-      background: rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(3px);
     }
 
     @keyframes introFade {
@@ -200,7 +203,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: 1rem;
       font-style: italic;
-      color: rgba(255, 240, 245, 0.95);
+      color: rgba(255, 240, 245, 0.88);
       text-shadow: 0 1px 6px rgba(0,0,0,0.35);
       letter-spacing: 0.08em;
       text-align: center;
@@ -228,12 +231,11 @@
 
     @keyframes screenFadeOut {
       from { opacity: 1; }
-      to   { opacity: 0; visibility: hidden; }
+      to   { opacity: 0; pointer-events: none; }
     }
 
     /* ═══════════════════════════════════════
        CONTENIDO PRINCIPAL — LA CARTA
-       (el contenido se desplaza, el fondo NO)
     ═══════════════════════════════════════ */
     #main-content {
       position: relative;
@@ -241,22 +243,21 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 60px 20px 80px;
-      min-height: 100vh;
+      padding: 40px 0 60px;
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(30px) scaleY(0.94);
       transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
                   transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     #main-content.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scaleY(1);
     }
 
     /* Carta / pergamino */
     .letter-wrap {
-      width: min(92vw, 450px);
+      width: min(92vw, 420px);
       background: var(--paper-bg);
       border-radius: 18px 18px 14px 14px;
       box-shadow: var(--shadow-paper);
@@ -287,8 +288,8 @@
     /* ─── Ícono sobre la carta ─── */
     .letter-icon {
       text-align: center;
-      font-size: 32px;
-      margin-bottom: 12px;
+      font-size: 28px;
+      margin-bottom: 10px;
       animation: iconFloat 3s ease-in-out infinite;
     }
 
@@ -300,7 +301,7 @@
     /* ─── Título ─── */
     .letter-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.9rem;
+      font-size: 1.85rem;
       font-weight: 600;
       font-style: italic;
       color: var(--text-title);
@@ -310,7 +311,7 @@
       letter-spacing: 0.02em;
     }
 
-    /* ─── Subtítulo ─── */
+    /* ─── Subtítulo / fecha de apertura ─── */
     .letter-sub {
       text-align: center;
       font-family: 'Cormorant Garamond', serif;
@@ -386,7 +387,7 @@
        SECCIÓN FINAL — FECHAS E INFINITO
     ═══════════════════════════════════════ */
     .letter-dates {
-      margin-top: 45px;
+      margin-top: 40px;
       text-align: center;
       padding: 0 10px;
     }
@@ -395,55 +396,75 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
+      gap: 16px;
     }
 
     .date-item {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem;
-      font-weight: 400;
+      font-size: 1.1rem;
+      font-weight: 300;
       font-style: italic;
-      color: rgba(255, 240, 245, 0.92);
-      text-shadow: 0 1px 6px rgba(0,0,0,0.30);
-      letter-spacing: 0.06em;
+      color: rgba(255, 240, 245, 0.90);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.35);
+      letter-spacing: 0.12em;
     }
 
-    /* Símbolo infinito más GRANDE */
+    /* ─── Sección cierre: layout vertical ─── */
+    .letter-dates {
+      margin-top: 40px;
+      text-align: center;
+      padding: 0 10px;
+    }
+
+    .dates-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* Símbolo infinito animado — protagonista del cierre */
     .infinity-wrap {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
+      margin: 10px 0 12px;
     }
 
     .infinity-sym {
-      font-size: 3rem;        /* MUCHO más grande */
-      font-weight: 400;
+      font-size: 5.5rem;        /* antes 2rem — ahora muy prominente */
+      line-height: 1;
       color: var(--rose-pastel);
       text-shadow:
-        0 0 12px rgba(232, 180, 199, 0.85),
-        0 0 28px rgba(200, 100, 140, 0.45);
-      animation: infinityPulse 2.6s ease-in-out infinite;
-      line-height: 1;
+        0 0 20px rgba(232, 180, 199, 0.90),
+        0 0 45px rgba(200, 100, 140, 0.55),
+        0 0 80px rgba(200, 100, 140, 0.25);
+      animation: infinityPulse 2.8s ease-in-out infinite;
     }
 
     @keyframes infinityPulse {
       0%, 100% {
         transform: scale(1);
-        text-shadow: 0 0 10px rgba(232,180,199,0.7), 0 0 22px rgba(200,100,140,0.3);
+        text-shadow:
+          0 0 18px rgba(232,180,199,0.80),
+          0 0 40px rgba(200,100,140,0.45),
+          0 0 70px rgba(200,100,140,0.20);
       }
       50% {
-        transform: scale(1.1);
-        text-shadow: 0 0 18px rgba(232,180,199,0.95), 0 0 38px rgba(200,100,140,0.60);
+        transform: scale(1.08);
+        text-shadow:
+          0 0 28px rgba(232,180,199,1.00),
+          0 0 60px rgba(200,100,140,0.70),
+          0 0 100px rgba(200,100,140,0.35);
       }
     }
 
     .infinity-label {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-style: italic;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: rgba(255, 230, 238, 0.65);
     }
@@ -452,47 +473,16 @@
        FOOTER
     ═══════════════════════════════════════ */
     .page-footer {
-      margin-top: 40px;
+      margin-top: 36px;
       text-align: center;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-style: italic;
-      color: rgba(255, 235, 242, 0.6);
+      color: rgba(255, 235, 242, 0.55);
       letter-spacing: 0.08em;
       padding-bottom: 20px;
     }
 
-    /* Ajuste para pantallas pequeñas */
-    @media (max-width: 480px) {
-      #main-content {
-        padding: 40px 16px 60px;
-      }
-      .letter-inner {
-        padding: 24px 18px 32px;
-      }
-      .letter-body {
-        font-size: 0.98rem;
-        line-height: 1.8;
-      }
-      .letter-title {
-        font-size: 1.65rem;
-      }
-      .letter-icon {
-        font-size: 28px;
-      }
-      .dates-row {
-        gap: 14px;
-      }
-      .date-item {
-        font-size: 0.85rem;
-      }
-      .infinity-sym {
-        font-size: 2.4rem;   /* sigue siendo grande pero ajustado a móvil */
-      }
-      .infinity-label {
-        font-size: 0.6rem;
-      }
-    }
   </style>
 </head>
 <body>
@@ -515,23 +505,34 @@
 
 
   <!-- ═══════════════════════════════════
-       CONTENIDO PRINCIPAL (se desplaza, el fondo no)
+       CONTENIDO PRINCIPAL
   ═══════════════════════════════════ -->
   <div id="main-content">
 
     <div class="letter-wrap">
       <div class="letter-inner">
 
+        <!-- Ícono -->
         <div class="letter-icon">🌸</div>
 
+        <!-- Título -->
         <h1 class="letter-title">De lo más sincero</h1>
         <p class="letter-sub">Escrito especialmente para vos</p>
 
+        <!-- Divisor -->
         <div class="divider">
           <span></span><i>✦</i><span></span>
         </div>
 
+        <!-- ══════════════════════════════
+             INICIO DEL MENSAJE PERSONAL
+             Reemplazá todo el contenido
+             entre estos comentarios con
+             tu carta real.
+        ══════════════════════════════ -->
+        <!-- INICIO DEL MENSAJE PERSONAL -->
         <div class="letter-body">
+
           <p>Hay momentos que uno no sabe bien cómo nombrar. Esos momentos en los que algo cambia de a poco, sin que nadie lo avise, sin que haya una señal clara. Solo de repente te das cuenta de que ya no estás en el mismo lugar que antes.</p>
 
           <p>Así fue con vos. No hubo un instante exacto en que decidí que me importabas. Fue una acumulación de cosas pequeñas, de conversaciones que duraban más de lo esperado, de silencios que no incomodaban, de risas que se sentían genuinas.</p>
@@ -545,16 +546,21 @@
           <p>Gracias por ser como sos. Por la honestidad. Por la calidez. Por las formas tuyas que todavía sigo descubriendo.</p>
 
           <p>Esto es solo una parte de todo lo que podría decirte. El resto, lo vamos construyendo juntos.</p>
-        </div>
 
+        </div>
+        <!-- FIN DEL MENSAJE PERSONAL -->
+
+        <!-- Firma -->
         <div class="letter-sign">
           Con todo cariño,
           <strong>Mauro 🌷</strong>
         </div>
 
-      </div>
-    </div>
+      </div><!-- /letter-inner -->
+    </div><!-- /letter-wrap -->
 
+
+    <!-- Fechas e infinito -->
     <div class="letter-dates">
       <div class="dates-row">
         <div class="date-item">11 · 11 · 2025</div>
@@ -568,20 +574,32 @@
       </div>
     </div>
 
-    <p class="page-footer">Hecho solo para vos por Mauro Portillo 🌷</p>
+    <!-- Footer -->
+    <p class="page-footer">Hecho solo para vos por Mauro Portillo 🌹</p>
 
-  </div>
+  </div><!-- /main-content -->
+
 
   <script>
+    /* ══════════════════════════════════════════
+       SECUENCIA DE ANIMACIÓN DE APERTURA
+       1. (0ms)    Sobre aparece flotando
+       2. (1200ms) Solapa se abre
+       3. (2100ms) Sello desaparece
+       4. (2600ms) Intro hace fade out
+       5. (3000ms) Carta aparece desplegándose
+    ══════════════════════════════════════════ */
     const introScreen = document.getElementById('intro-screen');
     const envelope    = document.getElementById('envelope');
     const mainContent = document.getElementById('main-content');
 
     function runOpeningSequence() {
+      // Paso 1: abrir el sobre (levantar solapa)
       setTimeout(() => {
         envelope.classList.add('opening');
       }, 1200);
 
+      // Paso 2: hacer fade out de la pantalla intro
       setTimeout(() => {
         introScreen.classList.add('hide');
         introScreen.addEventListener('animationend', () => {
@@ -589,11 +607,13 @@
         }, { once: true });
       }, 2600);
 
+      // Paso 3: mostrar la carta
       setTimeout(() => {
         mainContent.classList.add('visible');
       }, 3000);
     }
 
+    // Esperar a que las fuentes carguen antes de arrancar
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(runOpeningSequence);
     } else {
