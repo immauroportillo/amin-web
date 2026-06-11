@@ -37,6 +37,25 @@
     .env-side-right { right:0; border-style:solid; border-width:70px 100px 0 0; border-color:transparent rgba(240,200,215,0.5) transparent transparent; }
     .intro-hint { font-family:'Cormorant Garamond',serif; font-size:1rem; font-style:italic; color:rgba(255,240,245,0.88); text-shadow:0 1px 6px rgba(0,0,0,0.35); letter-spacing:0.08em; text-align:center; animation:hintPulse 1.8s ease-in-out infinite; }
     @keyframes hintPulse { 0%,100%{opacity:0.7} 50%{opacity:1} }
+
+    /* Botón "tocá para abrir" */
+    .intro-btn {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1rem;
+      font-style:italic;
+      color:rgba(255,240,245,0.92);
+      text-shadow:0 1px 6px rgba(0,0,0,0.35);
+      letter-spacing:0.08em;
+      text-align:center;
+      background:rgba(255,255,255,0.10);
+      border:1px solid rgba(232,180,199,0.40);
+      border-radius:50px;
+      padding:10px 24px;
+      cursor:pointer;
+      animation:hintPulse 1.8s ease-in-out infinite;
+      -webkit-tap-highlight-color:transparent;
+      pointer-events:all;  /* el botón sí captura toques */
+    }
     .envelope.opening .env-flap-top { transform:rotateX(-180deg); }
     .envelope.opening .wax-seal { opacity:0; }
     #intro-screen.hide { animation:screenFadeOut 0.7s ease forwards; }
@@ -80,7 +99,7 @@
 </head>
 <body>
 
-  <!-- Audio — una sola reproducción al desplegarse la carta -->
+  <!-- Audio — se activa desde el gesto del usuario para garantizar reproducción -->
   <audio id="bgMusic" src="dametuaire.mp3" preload="auto"></audio>
 
   <!-- PANTALLA INTRO -->
@@ -94,7 +113,8 @@
       <div class="env-flap-top"></div>
       <div class="wax-seal">💗</div>
     </div>
-    <p class="intro-hint">Una carta para vos…</p>
+    <!-- Botón real: el gesto del usuario desbloquea el autoplay -->
+    <button id="openBtn" class="intro-btn">Tocá para abrir tu carta 💗</button>
   </div>
 
   <!-- CONTENIDO PRINCIPAL -->
@@ -192,10 +212,19 @@
     const envelope    = document.getElementById('envelope');
     const mainContent = document.getElementById('main-content');
     const bgMusic     = document.getElementById('bgMusic');
+    const openBtn     = document.getElementById('openBtn');
 
-    function runOpeningSequence() {
+    openBtn.addEventListener('click', () => {
+      // Deshabilitar el botón para que no se pueda tocar dos veces
+      openBtn.disabled = true;
+      openBtn.style.opacity = '0.4';
+
+      // Arrancar música — dentro del evento click el autoplay SIEMPRE funciona
+      bgMusic.loop = false;
+      bgMusic.play();
+
       // 1. Abrir sobre
-      setTimeout(() => envelope.classList.add('opening'), 1200);
+      setTimeout(() => envelope.classList.add('opening'), 400);
 
       // 2. Fade out intro
       setTimeout(() => {
@@ -203,31 +232,13 @@
         introScreen.addEventListener('animationend', () => {
           introScreen.style.display = 'none';
         }, { once: true });
-      }, 2600);
+      }, 1400);
 
-      // 3. Mostrar carta + reproducir música una sola vez
+      // 3. Mostrar carta
       setTimeout(() => {
         mainContent.classList.add('visible');
-        bgMusic.loop = false; // suena una vez, sin repetir
-        bgMusic.play().catch(() => {
-          // Fallback: algunos navegadores móviles bloquean autoplay
-          // hasta que el usuario interactúa con la página
-          const playOnce = () => {
-            bgMusic.play();
-            document.removeEventListener('touchstart', playOnce);
-            document.removeEventListener('click', playOnce);
-          };
-          document.addEventListener('touchstart', playOnce, { once: true });
-          document.addEventListener('click',      playOnce, { once: true });
-        });
-      }, 3000);
-    }
-
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(runOpeningSequence);
-    } else {
-      runOpeningSequence();
-    }
+      }, 1800);
+    });
   </script>
 </body>
 </html>
