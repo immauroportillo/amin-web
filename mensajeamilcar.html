@@ -1,520 +1,89 @@
-Aquí tienes el código actualizado con el texto que me proporcionaste y la fecha corregida al 11 de junio de 2026:
-
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Para vos</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet" />
-
   <style>
-    /* ═══════════════════════════════════════
-       RESET & BASE
-    ═══════════════════════════════════════ */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --rose-pastel:  #E8B4C7;
-      --rose-mid:     #c9607a;
-      --rose-dark:    #A14D70;
-      --rose-deeper:  #8C3E60;
-      --beige:        #f5ede6;
-      --cream:        #fdf8f4;
-      --text-title:   #241818;
-      --text-body:    #2e1f1f;
-      --text-soft:    #7a5060;
-      --paper-bg:     rgba(253, 248, 244, 0.93);
-      --shadow-paper: 0 12px 60px rgba(80, 20, 35, 0.22),
-                      0 2px 8px  rgba(80, 20, 35, 0.10);
+      --rose-pastel: #E8B4C7; --rose-mid: #c9607a; --rose-dark: #A14D70;
+      --rose-deeper: #8C3E60; --beige: #f5ede6; --cream: #fdf8f4;
+      --text-title: #241818; --text-body: #2e1f1f; --text-soft: #7a5060;
+      --paper-bg: rgba(253,248,244,0.93);
+      --shadow-paper: 0 12px 60px rgba(80,20,35,0.22), 0 2px 8px rgba(80,20,35,0.10);
     }
+    html { scroll-behavior: smooth; }
+    body { font-family:'DM Sans',sans-serif; background-color:#2a1018; min-height:100dvh; overflow-x:hidden; position:relative; }
+    body::after { content:''; position:fixed; inset:0; background-image:url('amininicio.jpeg'); background-size:cover; background-position:center top; background-repeat:no-repeat; z-index:-2; pointer-events:none; }
+    body::before { content:''; position:fixed; inset:0; background:linear-gradient(170deg,rgba(255,235,240,0.07) 0%,rgba(200,140,160,0.09) 50%,rgba(30,10,18,0.16) 100%); pointer-events:none; z-index:-1; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    /* INTRO */
+    #intro-screen { position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; pointer-events:none; animation:introFade 0.6s ease both; }
+    @keyframes introFade { from{opacity:0} to{opacity:1} }
+    .envelope { position:relative; width:200px; height:140px; animation:envelopeFloat 2s ease-in-out infinite; }
+    @keyframes envelopeFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .env-body { position:absolute; inset:0; background:linear-gradient(155deg,#fdf0f3 0%,#f8e4eb 60%,#f2d4de 100%); border-radius:4px 4px 10px 10px; border:1px solid rgba(232,180,199,0.55); box-shadow:0 8px 32px rgba(160,77,112,0.25),inset 0 1px 0 rgba(255,255,255,0.6); }
+    .env-flap-bottom { position:absolute; bottom:0; left:0; right:0; height:70px; overflow:hidden; }
+    .env-flap-bottom::before { content:''; position:absolute; bottom:0; left:-2px; right:-2px; height:80px; background:linear-gradient(155deg,#f5d5e2 0%,#edd0da 100%); clip-path:polygon(0% 100%,50% 0%,100% 100%); border:1px solid rgba(232,180,199,0.4); }
+    .env-flap-top { position:absolute; top:0; left:-2px; right:-2px; transform-origin:top center; transition:transform 0.8s cubic-bezier(0.4,0,0.2,1); z-index:5; }
+    .env-flap-top::before { content:''; display:block; height:80px; background:linear-gradient(175deg,#fce8ef 0%,#f5d0dc 100%); clip-path:polygon(0% 0%,50% 75%,100% 0%); border-bottom:1px solid rgba(232,180,199,0.45); }
+    .wax-seal { position:absolute; top:36px; left:50%; transform:translateX(-50%); width:38px; height:38px; background:radial-gradient(circle at 35% 35%,#e8829a,#c4607a 55%,#a04060); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:17px; box-shadow:0 2px 10px rgba(160,64,96,0.45),inset 0 1px 2px rgba(255,255,255,0.25); z-index:6; transition:opacity 0.4s ease; }
+    .env-side-left,.env-side-right { position:absolute; bottom:0; width:0; height:0; }
+    .env-side-left { left:0; border-style:solid; border-width:70px 0 0 100px; border-color:transparent transparent transparent rgba(240,200,215,0.5); }
+    .env-side-right { right:0; border-style:solid; border-width:70px 100px 0 0; border-color:transparent rgba(240,200,215,0.5) transparent transparent; }
+    .intro-hint { font-family:'Cormorant Garamond',serif; font-size:1rem; font-style:italic; color:rgba(255,240,245,0.88); text-shadow:0 1px 6px rgba(0,0,0,0.35); letter-spacing:0.08em; text-align:center; animation:hintPulse 1.8s ease-in-out infinite; }
+    @keyframes hintPulse { 0%,100%{opacity:0.7} 50%{opacity:1} }
+    .envelope.opening .env-flap-top { transform:rotateX(-180deg); }
+    .envelope.opening .wax-seal { opacity:0; }
+    #intro-screen.hide { animation:screenFadeOut 0.7s ease forwards; }
+    @keyframes screenFadeOut { from{opacity:1} to{opacity:0;pointer-events:none} }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background-color: #2a1018;
-      min-height: 100dvh;
-      overflow-x: hidden;
-      position: relative;
-    }
+    /* CONTENIDO */
+    #main-content { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; padding:40px 0 60px; opacity:0; transform:translateY(30px) scaleY(0.94); transition:opacity 0.9s cubic-bezier(0.22,1,0.36,1),transform 0.9s cubic-bezier(0.22,1,0.36,1); }
+    #main-content.visible { opacity:1; transform:translateY(0) scaleY(1); }
+    .letter-wrap { width:min(92vw,420px); background:var(--paper-bg); border-radius:18px 18px 14px 14px; box-shadow:var(--shadow-paper); border:1px solid rgba(232,180,199,0.30); overflow:hidden; position:relative; }
+    .letter-wrap::before { content:''; display:block; height:4px; background:linear-gradient(90deg,#f7c8d4,#E8B4C7,#dfa5ba,#E8B4C7,#f7c8d4); background-size:200% 100%; animation:borderShimmer 4s linear infinite; }
+    @keyframes borderShimmer { 0%{background-position:0% 0%} 100%{background-position:200% 0%} }
+    .letter-inner { padding:32px 26px 40px; }
+    .letter-icon { text-align:center; font-size:28px; margin-bottom:10px; animation:iconFloat 3s ease-in-out infinite; }
+    @keyframes iconFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+    .letter-title { font-family:'Cormorant Garamond',serif; font-size:1.85rem; font-weight:600; font-style:italic; color:var(--text-title); text-align:center; line-height:1.2; margin-bottom:8px; letter-spacing:0.02em; }
+    .letter-sub { text-align:center; font-family:'Cormorant Garamond',serif; font-size:0.78rem; font-style:normal; font-weight:300; color:var(--text-soft); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:28px; }
+    .divider { display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+    .divider span { flex:1; height:1px; background:linear-gradient(90deg,transparent,rgba(232,180,199,0.6),transparent); }
+    .divider i { font-style:normal; font-size:12px; color:var(--rose-mid); }
+    .letter-body { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:400; line-height:1.95; color:var(--text-body); text-align:justify; }
+    .letter-body p { margin-bottom:22px; }
+    .letter-body p:last-child { margin-bottom:0; }
+    .letter-sign { font-family:'Cormorant Garamond',serif; font-size:1rem; font-style:italic; font-weight:300; color:var(--text-soft); text-align:right; margin-top:32px; padding-top:16px; border-top:1px solid rgba(232,180,199,0.35); }
+    .letter-sign strong { display:block; font-size:1.1rem; font-weight:600; color:var(--rose-dark); margin-top:4px; }
 
-    /* Imagen de fondo completamente fija — funciona en iOS y Android */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url('amininicio.jpeg');
-      background-size: cover;
-      background-position: center top;
-      background-repeat: no-repeat;
-      z-index: -2;
-      pointer-events: none;
-    }
-
-    /* overlay cálido muy sutil, también fijo */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(
-        170deg,
-        rgba(255, 235, 240, 0.07) 0%,
-        rgba(200, 140, 160, 0.09) 50%,
-        rgba(30, 10, 18, 0.16) 100%
-      );
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    /* ═══════════════════════════════════════
-       PANTALLA DE INTRO — SOBRE CERRADO
-    ═══════════════════════════════════════ */
-    #intro-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      pointer-events: none;
-      animation: introFade 0.6s ease both;
-    }
-
-    @keyframes introFade {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    /* El sobre */
-    .envelope {
-      position: relative;
-      width: 200px;
-      height: 140px;
-      animation: envelopeFloat 2s ease-in-out infinite;
-    }
-
-    @keyframes envelopeFloat {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-8px); }
-    }
-
-    /* Cuerpo del sobre */
-    .env-body {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(155deg, #fdf0f3 0%, #f8e4eb 60%, #f2d4de 100%);
-      border-radius: 4px 4px 10px 10px;
-      border: 1px solid rgba(232, 180, 199, 0.55);
-      box-shadow: 0 8px 32px rgba(160, 77, 112, 0.25),
-                  inset 0 1px 0 rgba(255,255,255,0.6);
-    }
-
-    /* Solapa inferior (V) */
-    .env-flap-bottom {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 70px;
-      overflow: hidden;
-    }
-
-    .env-flap-bottom::before {
-      content: '';
-      position: absolute;
-      bottom: 0; left: -2px; right: -2px;
-      height: 80px;
-      background: linear-gradient(155deg, #f5d5e2 0%, #edd0da 100%);
-      clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
-      border: 1px solid rgba(232, 180, 199, 0.4);
-    }
-
-    /* Solapa superior (triángulo que se abre) */
-    .env-flap-top {
-      position: absolute;
-      top: 0; left: -2px; right: -2px;
-      transform-origin: top center;
-      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 5;
-    }
-
-    .env-flap-top::before {
-      content: '';
-      display: block;
-      height: 80px;
-      background: linear-gradient(175deg, #fce8ef 0%, #f5d0dc 100%);
-      clip-path: polygon(0% 0%, 50% 75%, 100% 0%);
-      border-bottom: 1px solid rgba(232, 180, 199, 0.45);
-    }
-
-    /* Sello de cera */
-    .wax-seal {
-      position: absolute;
-      top: 36px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 38px;
-      height: 38px;
-      background: radial-gradient(circle at 35% 35%, #e8829a, #c4607a 55%, #a04060);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 17px;
-      box-shadow: 0 2px 10px rgba(160, 64, 96, 0.45),
-                  inset 0 1px 2px rgba(255,255,255,0.25);
-      z-index: 6;
-      transition: opacity 0.4s ease;
-    }
-
-    /* Lados triangulares */
-    .env-side-left,
-    .env-side-right {
-      position: absolute;
-      bottom: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .env-side-left {
-      left: 0;
-      border-style: solid;
-      border-width: 70px 0 0 100px;
-      border-color: transparent transparent transparent rgba(240, 200, 215, 0.5);
-    }
-
-    .env-side-right {
-      right: 0;
-      border-style: solid;
-      border-width: 70px 100px 0 0;
-      border-color: transparent rgba(240, 200, 215, 0.5) transparent transparent;
-    }
-
-    /* Texto debajo del sobre */
-    .intro-hint {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      font-style: italic;
-      color: rgba(255, 240, 245, 0.88);
-      text-shadow: 0 1px 6px rgba(0,0,0,0.35);
-      letter-spacing: 0.08em;
-      text-align: center;
-      animation: hintPulse 1.8s ease-in-out infinite;
-    }
-
-    @keyframes hintPulse {
-      0%, 100% { opacity: 0.7; }
-      50%       { opacity: 1; }
-    }
-
-    /* Clase que activa apertura del sobre */
-    .envelope.opening .env-flap-top {
-      transform: rotateX(-180deg);
-    }
-
-    .envelope.opening .wax-seal {
-      opacity: 0;
-    }
-
-    /* Fade out de la pantalla intro */
-    #intro-screen.hide {
-      animation: screenFadeOut 0.7s ease forwards;
-    }
-
-    @keyframes screenFadeOut {
-      from { opacity: 1; }
-      to   { opacity: 0; pointer-events: none; }
-    }
-
-    /* ═══════════════════════════════════════
-       CONTENIDO PRINCIPAL — LA CARTA
-    ═══════════════════════════════════════ */
-    #main-content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 0 60px;
-      opacity: 0;
-      transform: translateY(30px) scaleY(0.94);
-      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-                  transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    #main-content.visible {
-      opacity: 1;
-      transform: translateY(0) scaleY(1);
-    }
-
-    /* Carta / pergamino */
-    .letter-wrap {
-      width: min(92vw, 420px);
-      background: var(--paper-bg);
-      border-radius: 18px 18px 14px 14px;
-      box-shadow: var(--shadow-paper);
-      border: 1px solid rgba(232, 180, 199, 0.30);
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Línea de color en la parte superior */
-    .letter-wrap::before {
-      content: '';
-      display: block;
-      height: 4px;
-      background: linear-gradient(90deg, #f7c8d4, #E8B4C7, #dfa5ba, #E8B4C7, #f7c8d4);
-      background-size: 200% 100%;
-      animation: borderShimmer 4s linear infinite;
-    }
-
-    @keyframes borderShimmer {
-      0%   { background-position: 0% 0%; }
-      100% { background-position: 200% 0%; }
-    }
-
-    .letter-inner {
-      padding: 32px 26px 40px;
-    }
-
-    /* ─── Ícono sobre la carta ─── */
-    .letter-icon {
-      text-align: center;
-      font-size: 28px;
-      margin-bottom: 10px;
-      animation: iconFloat 3s ease-in-out infinite;
-    }
-
-    @keyframes iconFloat {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-5px); }
-    }
-
-    /* ─── Título ─── */
-    .letter-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.85rem;
-      font-weight: 600;
-      font-style: italic;
-      color: var(--text-title);
-      text-align: center;
-      line-height: 1.2;
-      margin-bottom: 8px;
-      letter-spacing: 0.02em;
-    }
-
-    /* ─── Subtítulo / fecha de apertura ─── */
-    .letter-sub {
-      text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.78rem;
-      font-style: normal;
-      font-weight: 300;
-      color: var(--text-soft);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin-bottom: 28px;
-    }
-
-    /* ─── Divisor ─── */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 28px;
-    }
-
-    .divider span {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(232,180,199,0.6), transparent);
-    }
-
-    .divider i {
-      font-style: normal;
-      font-size: 12px;
-      color: var(--rose-mid);
-    }
-
-    /* ─── Cuerpo de la carta ─── */
-    .letter-body {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem;
-      font-weight: 400;
-      line-height: 1.95;
-      color: var(--text-body);
-      text-align: justify;
-    }
-
-    .letter-body p {
-      margin-bottom: 22px;
-    }
-
-    .letter-body p:last-child {
-      margin-bottom: 0;
-    }
-
-    /* ─── Firma dentro del cuerpo ─── */
-    .letter-sign {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      font-style: italic;
-      font-weight: 300;
-      color: var(--text-soft);
-      text-align: right;
-      margin-top: 32px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(232, 180, 199, 0.35);
-    }
-
-    .letter-sign strong {
-      display: block;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--rose-dark);
-      margin-top: 4px;
-    }
-
-    /* ═══════════════════════════════════════
-       SECCIÓN FINAL — FECHAS E INFINITO
-    ═══════════════════════════════════════ */
-    .letter-dates {
-      margin-top: 40px;
-      text-align: center;
-      padding: 0 10px;
-    }
-
-    .dates-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-    }
-
-    .date-item {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 300;
-      font-style: italic;
-      color: rgba(255, 240, 245, 0.90);
-      text-shadow: 0 1px 8px rgba(0,0,0,0.35);
-      letter-spacing: 0.12em;
-    }
-
-    /* ─── Sección cierre ─── */
-    .letter-dates {
-      margin-top: 44px;
-      text-align: center;
-      padding: 0 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* Fila horizontal: fecha ∞ fecha */
-    .dates-row {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      width: 100%;
-    }
-
-    .date-item {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      font-weight: 300;
-      font-style: italic;
-      color: rgba(255, 240, 245, 0.90);
-      text-shadow: 0 1px 8px rgba(0,0,0,0.35);
-      letter-spacing: 0.10em;
-      white-space: nowrap;
-      flex: 1;
-    }
-
-    .date-item:first-child { text-align: right; }
-    .date-item:last-child  { text-align: left;  }
-
-    /* Símbolo infinito animado */
-    .infinity-sym {
-      font-size: 3.2rem;
-      line-height: 1;
-      color: var(--rose-pastel);
-      text-shadow:
-        0 0 18px rgba(232, 180, 199, 0.90),
-        0 0 40px rgba(200, 100, 140, 0.55),
-        0 0 70px rgba(200, 100, 140, 0.25);
-      animation: infinityPulse 2.8s ease-in-out infinite;
-      flex-shrink: 0;
-    }
-
+    /* CIERRE */
+    .letter-dates { margin-top:44px; text-align:center; padding:0 10px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+    .dates-row { display:flex; flex-direction:row; align-items:center; justify-content:center; gap:14px; width:100%; }
+    .date-item { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:300; font-style:italic; color:rgba(255,240,245,0.90); text-shadow:0 1px 8px rgba(0,0,0,0.35); letter-spacing:0.10em; white-space:nowrap; flex:1; }
+    .date-item:first-child { text-align:right; }
+    .date-item:last-child  { text-align:left; }
+    .infinity-sym { font-size:3.2rem; line-height:1; color:var(--rose-pastel); text-shadow:0 0 18px rgba(232,180,199,0.90),0 0 40px rgba(200,100,140,0.55),0 0 70px rgba(200,100,140,0.25); animation:infinityPulse 2.8s ease-in-out infinite; flex-shrink:0; }
     @keyframes infinityPulse {
-      0%, 100% {
-        transform: scale(1);
-        text-shadow:
-          0 0 16px rgba(232,180,199,0.80),
-          0 0 36px rgba(200,100,140,0.45),
-          0 0 60px rgba(200,100,140,0.20);
-      }
-      50% {
-        transform: scale(1.10);
-        text-shadow:
-          0 0 26px rgba(232,180,199,1.00),
-          0 0 55px rgba(200,100,140,0.70),
-          0 0 90px rgba(200,100,140,0.35);
-      }
+      0%,100% { transform:scale(1); text-shadow:0 0 16px rgba(232,180,199,0.80),0 0 36px rgba(200,100,140,0.45),0 0 60px rgba(200,100,140,0.20); }
+      50%      { transform:scale(1.10); text-shadow:0 0 26px rgba(232,180,199,1.00),0 0 55px rgba(200,100,140,0.70),0 0 90px rgba(200,100,140,0.35); }
     }
-
-    /* "Para siempre" debajo del conjunto */
-    .infinity-label {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.72rem;
-      font-style: italic;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: rgba(255, 230, 238, 0.68);
-      animation: labelAppear 1s ease both;
-    }
-
-    @keyframes labelAppear {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0);   }
-    }
-
-    /* ═══════════════════════════════════════
-       FOOTER
-    ═══════════════════════════════════════ */
-    .page-footer {
-      margin-top: 36px;
-      text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.68rem;
-      font-style: italic;
-      color: rgba(255, 235, 242, 0.55);
-      letter-spacing: 0.08em;
-      padding-bottom: 20px;
-    }
-
+    .infinity-label { font-family:'Cormorant Garamond',serif; font-size:0.72rem; font-style:italic; letter-spacing:0.24em; text-transform:uppercase; color:rgba(255,230,238,0.68); animation:labelAppear 1s ease both; }
+    @keyframes labelAppear { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+    .page-footer { margin-top:36px; text-align:center; font-family:'Cormorant Garamond',serif; font-size:0.68rem; font-style:italic; color:rgba(255,235,242,0.55); letter-spacing:0.08em; padding-bottom:20px; }
   </style>
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════
-       PANTALLA INTRO — SOBRE
-  ═══════════════════════════════════ -->
+  <!-- Audio — una sola reproducción al desplegarse la carta -->
+  <audio id="bgMusic" src="dametuaire.mp3" preload="auto"></audio>
+
+  <!-- PANTALLA INTRO -->
   <div id="intro-screen">
     <div class="envelope" id="envelope">
       <div class="env-body">
@@ -528,161 +97,84 @@ Aquí tienes el código actualizado con el texto que me proporcionaste y la fech
     <p class="intro-hint">Una carta para vos…</p>
   </div>
 
-
-  <!-- ═══════════════════════════════════
-       CONTENIDO PRINCIPAL
-  ═══════════════════════════════════ -->
+  <!-- CONTENIDO PRINCIPAL -->
   <div id="main-content">
-
     <div class="letter-wrap">
       <div class="letter-inner">
-
-        <!-- Ícono -->
         <div class="letter-icon">🌸</div>
-
-        <!-- Título -->
         <h1 class="letter-title">De lo más sincero</h1>
         <p class="letter-sub">Escrito especialmente para vos</p>
+        <div class="divider"><span></span><i>✦</i><span></span></div>
 
-        <!-- Divisor -->
-        <div class="divider">
-          <span></span><i>✦</i><span></span>
-        </div>
-
-        <!-- ══════════════════════════════
-             INICIO DEL MENSAJE PERSONAL
-        ══════════════════════════════ -->
         <!-- INICIO DEL MENSAJE PERSONAL -->
         <div class="letter-body">
-
           <p>No sé si seré el primero en regalarte flores, pero al menos seré el primero en darte un detalle de esta manera.</p>
-
           <p>No tengo ni la menor idea de dónde empezar escribiendo esto porque apenas empecé a escribir mis ojos ya se llenaron de lágrimas y se me formó un nudo en la garganta.</p>
-
           <p>Hay que remontarnos a donde todo empezó. A mí realmente me había costado mucho avanzar después de que, justamente, una de las personas de tu universidad, junto con un grupo de amigos suyos, me habían hecho trizas. Así, literalmente, trizas. Recuerdo que te conté a detalle todo lo que había pasado y no reaccionaste mucho ante eso.</p>
-
           <p>Siéndote sincero, dentro de nuestra primera interacción yo no tenía el más mínimo interés en formalizar algo. Andaba jodiendo con cualquiera. Esto se debía a que lo que pasó con la persona anterior me costó muchísimo anímicamente y económicamente también, porque necesité varios meses de terapia tras muchísimo desgaste emocional y demasiadas noches llorando, sintiendo que ya no podía más.</p>
-
           <p>Fui una persona demasiado lastimada, Amin, en serio. Me hirieron en demasiadas ocasiones desde niño, incluso muchas veces simplemente por el hecho de ser como soy. Cargo con tantas heridas, pero justamente porque soy consciente de cuánto duele que te hagan heridas es que siempre procuro no lastimar a nadie.</p>
-
           <p>Podrás escuchar varias versiones de mí, pero en absoluto te puedo asegurar que, en medio de mis errores, nunca en mi vida hice algo con malicia ni actué intencionalmente para dañar a alguien. Y eso por encima de que muchísimas veces la gente no tuvo una pizca de compasión por mí. En serio es horrible, te juro. Siempre procuro ponerme en el lugar de los demás porque, si estuvieras en mi lugar, verías lo horrible que es.</p>
-
           <p>Pero también me admiro muchísimo por ese lado, porque nunca, de los nunca, usé todo ese odio que recibí de la gente para lastimar a los demás. Incluso, dentro de mis posibilidades, llegué a transformar todo ese odio en amor. Trato de ser amable con los demás, incluso si son personas que no conozco, porque sé lo horrible que es que te traten mal.</p>
-
           <p>Entonces acepté ir conociéndote más de a poco. Reconozco al 100% que al principio yo nunca tuve la intención de tener nada contigo, pero conforme pasó el tiempo y te fui conociendo más, te dejé acceder más a mí y te convertiste en un lugar seguro para mí.</p>
-
           <p>Yo sabía que había caos de por medio. Con todo lo que había pasado en tu relación pasada, fui consciente de tu historia y, por más que me asustaba, te acepté así e intenté entenderte.</p>
-
           <p>Ya se volvió rutina escribir contigo. Ya no teníamos conversaciones tan vacías e iba sabiendo un poco más quién era en realidad Amílcar Amin. O al menos eso creía, porque la persona que estaba conociendo en ese momento me tenía en las nubes.</p>
-
           <p>Lo primero que hacía al despertar era pensar en vos y entrar en tu chat. Y lo último de mi día era hablar contigo y quedarme en tu chat. Cada cosa que me pasaba te la contaba.</p>
-
           <p>Y vos… ni qué decir de esos audios de seis minutos que eran 80% divague, 10% lo que me ibas a decir y el otro 10% algo random que te había pasado. Y en serio odiaba eso, JAJAJAJAJAJA. En serio digo, me re molestaba porque te respondía cuando tenía pequeñas brechas de tiempo dentro de mis actividades nada más y no podía responderte rápido si era audio. Y estaba ahí tu audio… y vos ya me mandabas un sticker otra vez para señalarme que aún no te respondía, JAJAJAJA.</p>
-
           <p>No me imagino lo horrible que me he de ver escribiendo esto ahora porque estoy llorando a mares. Y al acordarme de todo esto que te dije y de esos hermosos momentos al iniciar nuestro vínculo, no pude evitar sonreír al invadirme la nostalgia de cómo eran las cosas en ese entonces.</p>
-
           <p>Me encantaba cuando me decías amor. La manera en que sonaba tu voz y el tonito con el que lo decías me gustaban muchísimo. Yo me fijaba en todo, en cada detalle.</p>
-
           <p>Si bien yo siempre te decía que tenía los pies sobre la tierra dada nuestra situación, siempre tenía en cuenta cada minúsculo detalle y me iba enganchando más y más por vos. También iba dejando de lado, de a poquito, ese miedo que aún vivía en mí.</p>
-
           <p>A ver, si bien tuve seguimiento psicológico del caso y logré superarlo, obviamente estaba cagadísimo de empezar algo que en ese entonces era completamente desconocido para mí, por el miedo a nuevamente decepcionarme y terminar mal. Pero poco a poco me fui relajando y confiando más en mi chico de ojitos café, que había conocido de la manera más inesperada posible.</p>
-
           <p>Yo consideraba que habías aparecido en el momento justo porque noviembre siempre resulta un mes más pesado para mí. Fue el mes en donde falleció mi novio. Él falleció un 9 de noviembre y vos apareciste un 11.</p>
-
           <p>Tenía un chico de ojitos cafés súper amable conmigo, alguien que tiene buenos principios y busca su paz dentro de lo espiritual y su relación con Dios.</p>
-
           <p>¿Qué podría salir mal?</p>
-
           <p>Bueno… pequeño gran detalle que desde un principio vos reconociste, yo me di cuenta y decidí ignorar: los rasgos tóxicos que arrastrás de tu relación pasada.</p>
-
           <p>Es que, Amin, yo en serio no tengo palabras para explicar todo lo que siento, todo lo que me genera esta situación.</p>
-
           <p>Y en serio ya estoy harto de que la gente me diga siempre lo mismo. Siempre me dicen que soy demasiado, que mi corazón es muy noble, que mi manera de amar es muy genuina. Pero entonces, ¿por qué, si soy tan genial como dicen, no me protegen?</p>
-
           <p>Me hicieron trizas muchísimas veces. Y lo que más me duele es que creí que contigo esta vez iba a ser diferente.</p>
-
           <p>Boludo, yo muero por vos. Me encanta tu personalidad. Me fijé en vos por tu calidad de persona. Nunca le tomé importancia a tu físico, por más de que sé que es un complejo grande para vos. Decidí no prestarle atención a tu caos, a tu pasado. Solamente me importabas vos y cómo eras conmigo.</p>
-
           <p>¿Sabés qué es lo que más me duele? Haber llegado a formar este amor tan intenso para que después te vayas.</p>
-
           <p>En serio no sabés cuánto me destroza eso. Porque, ¿para qué dejaste que yo llegara a este punto si después me vas a dejar con todo el amor en las manos?</p>
-
           <p>Por encima de que fui atento, cariñoso, me preocupé por tu salud física y emocional, te ayudé a crecer como persona, te di soporte emocional, y por más de que te demostré una y mil veces que te quería y que tenía la intención más real contigo, aun así me hago la consulta de si me faltó hacer algo.</p>
-
           <p>Si es que di demasiado y tenía que ser más hdp para que me aceptaras. Si es que tenía algo que ver con mi físico, que también me crea complejos. Me hice muchísimas preguntas que me carcomían la cabeza y no me dejaban tranquilo.</p>
-
           <p>Procuré darte lo más sano que podía y darte todo el amor que tenía a mi alcance. Me humillé, y lo sigo haciendo hasta ahora, para ver si siquiera te dignás en responderme. Esto es prueba de ello.</p>
-
           <p>Vos no sabés el inmenso trabajo que hay detrás de la elaboración de una simple página como esta que hice exclusivamente para vos.</p>
-
           <p>El martes llegué todo sudoroso al speaking porque, de por sí, juntando mis moneditas te compré unos chocolates. Tenía que volver a enviártelos y, si también iba a usar Bolt, ya iba a ser demasiado, sin contar lo de estas flores.</p>
-
           <p>Y no sé, Amin… yo me manejo en bus. Me tuve que ir caminando, por encima de que tengo la espalda delicada aún. Me sacrifiqué a mí mismo para por lo menos tratar de sacarte una sonrisa a vos.</p>
-
           <p>Y no es que te saque en cara mis acciones. Solamente que, como siempre te dije, siento que no dimensionás las cosas que hago por vos.</p>
-
           <p>Porque sabés muy bien mi situación y siempre era yo quien iba junto a vos. Yo te buscaba. Yo me tenía que adaptar a tu horario.</p>
-
           <p>Boludo, te quejaste tanto de tu ex y terminaste haciendo conmigo todo lo que criticabas de él.</p>
-
           <p>Además de que estoy podrido de que me digas: "No quiero lastimarte".</p>
-
           <p>Entonces no me lastimes.</p>
-
           <p>No me lastimes.</p>
-
           <p>Sabés muy bien que yo siempre te comunico las cosas que me disgustan, y si te las digo es para que las corrijas y no las hagas más.</p>
-
           <p>Pucha, si sin querer lastimarme terminé como estoy ahora, ¿qué iba a pasar si tenías la intención de hacerlo?</p>
-
           <p>Odio que hayas tratado de elegir lo que es mejor para los dos sin incluirme a mí. Y odio que, en vez de ponerte los pantalones y tomar responsabilidad sobre tus traumas, me quieras sacar de tu vida a la fuerza.</p>
-
           <p>Si yo me voy, van a haber otros Mauros seguramente. Pero si vos no tratás el problema de raíz, se va a seguir repitiendo siempre el mismo patrón y vas a seguir lastimando a personas a tu paso.</p>
-
           <p>Iba a ser tan hermoso si me hubieras dicho:</p>
-
           <p>"Mirá, amor, a mí me pasa esto. Soy consciente de que no está bien, estoy tratando de erradicarlo y me gustaría que me tengas un poco de paciencia".</p>
-
           <p>Yo claro que te iba a acompañar en el proceso. Porque de eso se trata: de hacer las cosas juntos, de aprender juntos, de crecer juntos.</p>
-
           <p>No de que ante una problemática hagas lo que te resulta más fácil, que es salir corriendo.</p>
-
           <p>Ni yo, cuando supe a lo que me enfrentaba, quise salir corriendo. Porque vos sabés muy bien que yo jamás te insinué que me quería ir.</p>
-
           <p>Amin, ya no sé qué hacer, en serio.</p>
-
           <p>Te demuestro hasta con señales de humo que quiero solucionar las cosas y que solamente quiero que todo vuelva a ser como antes. Que vos te sueltes conmigo y dejes de sobreanalizar.</p>
-
           <p>¿En serio vas a dejarme ir por no hacerte responsable de tus heridas?</p>
-
           <p>Porque claro, a vos te lastimaron. Pero nadie puede venir a curarte las heridas. Vos tenés que hacerte responsable y sanarlas.</p>
-
           <p>¿Es injusto?</p>
-
           <p>Claro que es injusto.</p>
-
           <p>Pero así funciona la vida.</p>
-
           <p>Por favor, Amin, por el bien de ambos, pero principalmente por el tuyo, hablá con tus papás para que te paguen el psicólogo o tratá de que te quede un poquito para tus sesiones.</p>
-
           <p>La que yo conozco cobra 150.000 la hora. Es una genia y es sumamente profesional.</p>
-
           <p>No quiero perderte, Amin, y espero que me hagas sentir que vos tampoco querés hacerlo.</p>
-
         </div>
         <!-- FIN DEL MENSAJE PERSONAL -->
 
-        <!-- Firma -->
         <div class="letter-sign">
           Con todo cariño,
           <strong>Mauro 🌷</strong>
         </div>
+      </div>
+    </div>
 
-      </div><!-- /letter-inner -->
-    </div><!-- /letter-wrap -->
-
-
-    <!-- Fechas e infinito -->
     <div class="letter-dates">
       <div class="dates-row">
         <div class="date-item">11 · 11 · 2025</div>
@@ -692,32 +184,20 @@ Aquí tienes el código actualizado con el texto que me proporcionaste y la fech
       <span class="infinity-label">Para siempre</span>
     </div>
 
-    <!-- Footer -->
     <p class="page-footer">Hecho solo para vos por Mauro Portillo 🌹</p>
-
-  </div><!-- /main-content -->
-
+  </div>
 
   <script>
-    /* ══════════════════════════════════════════
-       SECUENCIA DE ANIMACIÓN DE APERTURA
-       1. (0ms)    Sobre aparece flotando
-       2. (1200ms) Solapa se abre
-       3. (2100ms) Sello desaparece
-       4. (2600ms) Intro hace fade out
-       5. (3000ms) Carta aparece desplegándose
-    ══════════════════════════════════════════ */
     const introScreen = document.getElementById('intro-screen');
     const envelope    = document.getElementById('envelope');
     const mainContent = document.getElementById('main-content');
+    const bgMusic     = document.getElementById('bgMusic');
 
     function runOpeningSequence() {
-      // Paso 1: abrir el sobre (levantar solapa)
-      setTimeout(() => {
-        envelope.classList.add('opening');
-      }, 1200);
+      // 1. Abrir sobre
+      setTimeout(() => envelope.classList.add('opening'), 1200);
 
-      // Paso 2: hacer fade out de la pantalla intro
+      // 2. Fade out intro
       setTimeout(() => {
         introScreen.classList.add('hide');
         introScreen.addEventListener('animationend', () => {
@@ -725,19 +205,29 @@ Aquí tienes el código actualizado con el texto que me proporcionaste y la fech
         }, { once: true });
       }, 2600);
 
-      // Paso 3: mostrar la carta
+      // 3. Mostrar carta + reproducir música una sola vez
       setTimeout(() => {
         mainContent.classList.add('visible');
+        bgMusic.loop = false; // suena una vez, sin repetir
+        bgMusic.play().catch(() => {
+          // Fallback: algunos navegadores móviles bloquean autoplay
+          // hasta que el usuario interactúa con la página
+          const playOnce = () => {
+            bgMusic.play();
+            document.removeEventListener('touchstart', playOnce);
+            document.removeEventListener('click', playOnce);
+          };
+          document.addEventListener('touchstart', playOnce, { once: true });
+          document.addEventListener('click',      playOnce, { once: true });
+        });
       }, 3000);
     }
 
-    // Esperar a que las fuentes carguen antes de arrancar
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(runOpeningSequence);
     } else {
       runOpeningSequence();
     }
   </script>
-
 </body>
 </html>
