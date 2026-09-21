@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Para vos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose-pastel:  #E8B4C7;
+      --rose-mid:     #c9607a;
+      --rose-dark:    #A14D70;
+      --cream:        #fdf8f4;
+      --text-dark:    #241818;
+      --text-soft:    #7a5060;
+      --glass:        rgba(253,248,244,0.18);
+      --glass-border: rgba(255,210,222,0.32);
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: #2a1018;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
+      position: relative;
+    }
+
+    /* Fondo fijo */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url('amininicio.jpeg');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: linear-gradient(170deg,
+        rgba(255,235,240,0.07) 0%,
+        rgba(200,140,160,0.09) 50%,
+        rgba(30,10,18,0.20) 100%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Encabezado */
+    .page-header {
+      text-align: center;
+      margin-bottom: 36px;
+      animation: fadeDown 0.8s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.65rem;
+      font-weight: 600;
+      font-style: italic;
+      color: rgba(255,245,248,0.95);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.40);
+      letter-spacing: 0.03em;
+      margin-bottom: 6px;
+    }
+
+    .page-header p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,225,235,0.65);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Contenedor de sobres */
+    .envelopes-row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 0 20px;
+    }
+
+    /* Tarjeta de cada sobre */
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      animation: cardIn 0.9s cubic-bezier(0.22,1,0.36,1) both;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.28s; }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(24px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0)    scale(1); }
+    }
+
+    .card:active .env-wrap { transform: scale(0.95); }
+
+    /* Envoltorio del sobre */
+    .env-wrap {
+      position: relative;
+      width: 130px;
+      height: 92px;
+      transition: transform 0.18s ease;
+      filter: drop-shadow(0 6px 18px rgba(80,20,35,0.30));
+    }
+
+    .env-wrap:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Cuerpo del sobre */
+    .env-body {
+      position: absolute; inset: 0;
+      border-radius: 3px 3px 8px 8px;
+      border: 1px solid rgba(232,180,199,0.50);
+    }
+
+    /* SOBRE 1 — crema cálido */
+    .card-1 .env-body {
+      background: linear-gradient(155deg, #fdf0f3 0%, #f8e4eb 60%, #f2d4de 100%);
+      box-shadow: 0 6px 24px rgba(160,77,112,0.20), inset 0 1px 0 rgba(255,255,255,0.55);
+    }
+
+    /* SOBRE 2 — verde primaveral + rosa */
+    .card-2 .env-body {
+      background: linear-gradient(155deg, #f0f8f0 0%, #e4f0e8 40%, #f5e8f0 100%);
+      border-color: rgba(160,200,170,0.55);
+      box-shadow: 0 6px 24px rgba(80,140,90,0.15), inset 0 1px 0 rgba(255,255,255,0.55);
+    }
+
+    /* Solapa inferior */
+    .env-flap-b {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 46px;
+      overflow: hidden;
+    }
+
+    .card-1 .env-flap-b::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: -2px; right: -2px;
+      height: 52px;
+      background: linear-gradient(155deg, #f5d5e2 0%, #edd0da 100%);
+      clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+    }
+
+    .card-2 .env-flap-b::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: -2px; right: -2px;
+      height: 52px;
+      background: linear-gradient(155deg, #d4ecd8 0%, #c8e0cc 100%);
+      clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+    }
+
+    /* Solapa superior */
+    .env-flap-t {
+      position: absolute;
+      top: 0; left: -2px; right: -2px;
+      z-index: 3;
+    }
+
+    .card-1 .env-flap-t::before {
+      content: '';
+      display: block;
+      height: 52px;
+      background: linear-gradient(175deg, #fce8ef 0%, #f5d0dc 100%);
+      clip-path: polygon(0% 0%, 50% 72%, 100% 0%);
+      border-bottom: 1px solid rgba(232,180,199,0.40);
+    }
+
+    .card-2 .env-flap-t::before {
+      content: '';
+      display: block;
+      height: 52px;
+      background: linear-gradient(175deg, #dff0e4 0%, #c8e4cc 100%);
+      clip-path: polygon(0% 0%, 50% 72%, 100% 0%);
+      border-bottom: 1px solid rgba(160,200,170,0.40);
+    }
+
+    /* Lados triangulares */
+    .env-side-l, .env-side-r {
+      position: absolute;
+      bottom: 0; width: 0; height: 0;
+    }
+
+    .card-1 .env-side-l {
+      left: 0;
+      border-style: solid;
+      border-width: 46px 0 0 65px;
+      border-color: transparent transparent transparent rgba(240,200,215,0.45);
+    }
+
+    .card-1 .env-side-r {
+      right: 0;
+      border-style: solid;
+      border-width: 46px 65px 0 0;
+      border-color: transparent rgba(240,200,215,0.45) transparent transparent;
+    }
+
+    .card-2 .env-side-l {
+      left: 0;
+      border-style: solid;
+      border-width: 46px 0 0 65px;
+      border-color: transparent transparent transparent rgba(180,220,190,0.45);
+    }
+
+    .card-2 .env-side-r {
+      right: 0;
+      border-style: solid;
+      border-width: 46px 65px 0 0;
+      border-color: transparent rgba(180,220,190,0.45) transparent transparent;
+    }
+
+    /* Sello de cera */
+    .wax {
+      position: absolute;
+      top: 22px; left: 50%;
+      transform: translateX(-50%);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      z-index: 4;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18), inset 0 1px 2px rgba(255,255,255,0.25);
+    }
+
+    .card-1 .wax {
+      background: radial-gradient(circle at 35% 35%, #e8829a, #c4607a 55%, #a04060);
+    }
+
+    .card-2 .wax {
+      background: radial-gradient(circle at 35% 35%, #a0d4a8, #6ab478 55%, #4a9458);
+    }
+
+    /* Flores decorativas sobre sobre 2 */
+    .spring-deco {
+      position: absolute;
+      top: -10px; right: -8px;
+      font-size: 18px;
+      animation: floatDeco 2.8s ease-in-out infinite;
+      z-index: 5;
+    }
+
+    @keyframes floatDeco {
+      0%,100% { transform: translateY(0) rotate(-5deg); }
+      50%      { transform: translateY(-4px) rotate(5deg); }
+    }
+
+    /* Etiqueta debajo del sobre */
+    .env-label {
+      text-align: center;
+    }
+
+    .env-label strong {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-style: italic;
+      color: rgba(255,245,248,0.95);
+      text-shadow: 0 1px 6px rgba(0,0,0,0.35);
+      letter-spacing: 0.03em;
+      margin-bottom: 3px;
+    }
+
+    .env-label span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.68rem;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,225,235,0.58);
+      letter-spacing: 0.12em;
+    }
+
+    /* Pulso suave en los sobres */
+    .env-wrap { animation: envFloat 3s ease-in-out infinite; }
+    .card:nth-child(2) .env-wrap { animation-delay: 0.6s; }
+
+    @keyframes envFloat {
+      0%,100% { filter: drop-shadow(0 6px 18px rgba(80,20,35,0.30)); }
+      50%      { filter: drop-shadow(0 10px 26px rgba(80,20,35,0.38)); transform: translateY(-3px); }
+    }
+
+    /* Footer */
+    .footer {
+      position: fixed;
+      bottom: 16px;
+      left: 0; right: 0;
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.62rem;
+      font-style: italic;
+      color: rgba(255,235,242,0.42);
+      letter-spacing: 0.08em;
+    }
+
+    /* Estado desactivado durante transición */
+    .card.navigating { pointer-events: none; opacity: 0.7; }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <h1>Tengo algo para vos 💗</h1>
+    <p>Elegí una carta</p>
+  </div>
+
+  <div class="envelopes-row">
+
+    <!-- SOBRE 1 — De lo más sincero -->
+    <div class="card card-1" id="card1" role="button" aria-label="Abrir carta: De lo más sincero">
+      <div class="env-wrap">
+        <div class="env-body">
+          <div class="env-side-l"></div>
+          <div class="env-side-r"></div>
+          <div class="env-flap-b"></div>
+        </div>
+        <div class="env-flap-t"></div>
+        <div class="wax">💗</div>
+      </div>
+      <div class="env-label">
+        <strong>De lo más sincero</strong>
+        <span>Una carta del corazón</span>
+      </div>
+    </div>
+
+    <!-- SOBRE 2 — Feliz primavera -->
+    <div class="card card-2" id="card2" role="button" aria-label="Abrir carta: Feliz primavera">
+      <div class="env-wrap">
+        <div class="env-body">
+          <div class="env-side-l"></div>
+          <div class="env-side-r"></div>
+          <div class="env-flap-b"></div>
+        </div>
+        <div class="env-flap-t"></div>
+        <div class="wax">🌸</div>
+        <span class="spring-deco">🌷</span>
+      </div>
+      <div class="env-label">
+        <strong>Feliz primavera 💗</strong>
+        <span>Una sorpresa especial</span>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="footer">Hecho solo para vos por Mauro Portillo 🌹</p>
+
+  <!-- Audio carta 2 -->
+  <audio id="audioSpring" src="primaveraamin.mp3" preload="auto"></audio>
+
+  <script>
+    const card1 = document.getElementById('card1');
+    const card2 = document.getElementById('card2');
+    const audioSpring = document.getElementById('audioSpring');
+
+    // Sobre 1 → mensajeamilcar.html (sin audio extra)
+    card1.addEventListener('click', () => {
+      card1.classList.add('navigating');
+      window.location.href = 'mensajeamilcar.html';
+    });
+
+    // Sobre 2 → reproducir audio en el mismo gesto, luego redirigir
+    card2.addEventListener('click', () => {
+      card2.classList.add('navigating');
+
+      // El click del usuario desbloquea el autoplay en todos los navegadores móviles
+      audioSpring.loop = false;
+      audioSpring.play().catch(() => {});
+
+      // Pequeña pausa para que el audio arranque antes de salir de la página
+      setTimeout(() => {
+        window.location.href = 'primaveraamin.html';
+      }, 320);
+    });
+  </script>
+
+</body>
+</html>
