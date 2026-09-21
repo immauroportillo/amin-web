@@ -38,7 +38,7 @@
     body::after {
       content: '';
       position: fixed; inset: 0;
-      background-image: url('aminlindo.HEIC');
+      background-image: url('aminlindo.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -299,6 +299,9 @@
 </head>
 <body>
 
+  <!-- Audio: continúa desde sobres.html si el flag está activo -->
+  <audio id="bgMusic" src="primaveraamin.mp3" preload="auto"></audio>
+
   <div id="main-content">
 
     <div class="letter-wrap">
@@ -361,6 +364,23 @@
     <p class="page-footer">Hecho solo para vos por Mauro Portillo 🌹</p>
 
   </div>
+
+  <script>
+    // El audio fue desbloqueado por el gesto del usuario en sobres.html
+    // sessionStorage guarda ese permiso para esta misma sesión del navegador
+    if (sessionStorage.getItem('playSpring') === '1') {
+      sessionStorage.removeItem('playSpring'); // consumir el flag — solo suena una vez
+      const music = document.getElementById('bgMusic');
+      music.loop = false;
+      // Intentar play inmediato; el navegador lo permite porque el gesto
+      // ocurrió en la misma sesión de navegación
+      music.play().catch(() => {
+        // Fallback: primer toque en la página lo activa
+        document.addEventListener('touchstart', () => music.play(), { once: true });
+        document.addEventListener('click',      () => music.play(), { once: true });
+      });
+    }
+  </script>
 
 </body>
 </html>
