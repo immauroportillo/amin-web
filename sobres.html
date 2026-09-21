@@ -283,6 +283,12 @@
     /* Etiqueta debajo del sobre */
     .env-label {
       text-align: center;
+      background: rgba(20, 8, 14, 0.52);
+      border: 1px solid rgba(255, 210, 222, 0.18);
+      border-radius: 12px;
+      padding: 8px 14px 9px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
     }
 
     .env-label strong {
@@ -291,8 +297,8 @@
       font-size: 0.95rem;
       font-weight: 600;
       font-style: italic;
-      color: rgba(255,245,248,0.95);
-      text-shadow: 0 1px 6px rgba(0,0,0,0.35);
+      color: #ffffff;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.50);
       letter-spacing: 0.03em;
       margin-bottom: 3px;
     }
@@ -302,7 +308,7 @@
       font-size: 0.68rem;
       font-weight: 300;
       font-style: italic;
-      color: rgba(255,225,235,0.58);
+      color: rgba(255, 220, 232, 0.82);
       letter-spacing: 0.12em;
     }
 
@@ -396,16 +402,34 @@
 
     // Sobre 2 → reproducir audio en el mismo gesto, luego redirigir
     card2.addEventListener('click', () => {
+      // Evitar doble disparo
+      if (card2.classList.contains('navigating')) return;
       card2.classList.add('navigating');
 
-      // El click del usuario desbloquea el autoplay en todos los navegadores móviles
+      // Arrancar audio dentro del gesto del usuario (evita bloqueo de autoplay)
+      audioSpring.currentTime = 0;
       audioSpring.loop = false;
-      audioSpring.play().catch(() => {});
+      const playPromise = audioSpring.play();
 
-      // Pequeña pausa para que el audio arranque antes de salir de la página
-      setTimeout(() => {
-        window.location.href = 'primaveraamin.html';
-      }, 320);
+      // Señalamos a primaveraamin.html que debe continuar el audio
+      sessionStorage.setItem('playSpring', '1');
+
+      // Redirigir después de que el audio realmente empiece a sonar
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setTimeout(() => {
+              window.location.href = 'primaveraamin.html';
+            }, 600);
+          })
+          .catch(() => {
+            window.location.href = 'primaveraamin.html';
+          });
+      } else {
+        setTimeout(() => {
+          window.location.href = 'primaveraamin.html';
+        }, 600);
+      }
     });
   </script>
 
