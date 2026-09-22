@@ -386,9 +386,6 @@
 
   <p class="footer">Hecho solo para vos por Mauro Portillo 🌹</p>
 
-  <!-- Audio carta 2 -->
-  <audio id="audioSpring" src="primaveraamin.mp3" preload="auto"></audio>
-
   <script>
     const card1 = document.getElementById('card1');
     const card2 = document.getElementById('card2');
@@ -400,36 +397,11 @@
       window.location.href = 'mensajeamilcar.html';
     });
 
-    // Sobre 2 → reproducir audio en el mismo gesto, luego redirigir
+    // Sobre 2 → redirigir directo, el audio arranca en primaveraamin.html
     card2.addEventListener('click', () => {
-      // Evitar doble disparo
       if (card2.classList.contains('navigating')) return;
       card2.classList.add('navigating');
-
-      // Arrancar audio dentro del gesto del usuario (evita bloqueo de autoplay)
-      audioSpring.currentTime = 0;
-      audioSpring.loop = false;
-      const playPromise = audioSpring.play();
-
-      // Señalamos a primaveraamin.html que debe continuar el audio
-      sessionStorage.setItem('playSpring', '1');
-
-      // Redirigir después de que el audio realmente empiece a sonar
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            setTimeout(() => {
-              window.location.href = 'primaveraamin.html';
-            }, 600);
-          })
-          .catch(() => {
-            window.location.href = 'primaveraamin.html';
-          });
-      } else {
-        setTimeout(() => {
-          window.location.href = 'primaveraamin.html';
-        }, 600);
-      }
+      window.location.href = 'primaveraamin.html';
     });
   </script>
 
