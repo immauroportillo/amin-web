@@ -366,20 +366,81 @@
   </div>
 
   <script>
-    // El audio fue desbloqueado por el gesto del usuario en sobres.html
-    // sessionStorage guarda ese permiso para esta misma sesión del navegador
-    if (sessionStorage.getItem('playSpring') === '1') {
-      sessionStorage.removeItem('playSpring'); // consumir el flag — solo suena una vez
-      const music = document.getElementById('bgMusic');
-      music.loop = false;
-      // Intentar play inmediato; el navegador lo permite porque el gesto
-      // ocurrió en la misma sesión de navegación
-      music.play().catch(() => {
-        // Fallback: primer toque en la página lo activa
-        document.addEventListener('touchstart', () => music.play(), { once: true });
-        document.addEventListener('click',      () => music.play(), { once: true });
-      });
-    }
+    // El audio arranca desde el gesto del usuario en esta misma página
+    const bgMusic     = document.getElementById('bgMusic');
+    const mainContent = document.getElementById('main-content');
+
+    // Ocultar contenido hasta que el usuario toque
+    mainContent.style.opacity   = '0';
+    mainContent.style.transform = 'translateY(26px)';
+    mainContent.style.transition = 'none';
+
+    // Crear pantalla de bienvenida con botón
+    const splash = document.createElement('div');
+    splash.id = 'splash';
+    splash.innerHTML = `
+      <div class="splash-flowers">🌸 🌷 🌼</div>
+      <p class="splash-hint">Feliz primavera 💗</p>
+      <button id="openBtn" class="splash-btn">Tocá para abrir tu carta 🌸</button>
+    `;
+    document.body.appendChild(splash);
+
+    // Estilos del splash inyectados dinámicamente
+    const s = document.createElement('style');
+    s.textContent = `
+      #splash {
+        position:fixed; inset:0; z-index:300;
+        display:flex; flex-direction:column;
+        align-items:center; justify-content:center; gap:18px;
+        animation:splashIn 0.6s ease both;
+      }
+      @keyframes splashIn { from{opacity:0} to{opacity:1} }
+      #splash.hide { animation:splashOut 0.6s ease forwards; pointer-events:none; }
+      @keyframes splashOut { from{opacity:1} to{opacity:0} }
+      .splash-flowers {
+        font-size:2.2rem; letter-spacing:8px;
+        animation:sf 2.8s ease-in-out infinite;
+      }
+      @keyframes sf { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+      .splash-hint {
+        font-family:'Cormorant Garamond',serif;
+        font-size:1.55rem; font-weight:600; font-style:italic;
+        color:rgba(255,245,248,0.95);
+        text-shadow:0 1px 8px rgba(0,0,0,0.45);
+        text-align:center;
+      }
+      .splash-btn {
+        font-family:'Cormorant Garamond',serif;
+        font-size:1rem; font-style:italic;
+        color:rgba(255,240,245,0.92);
+        text-shadow:0 1px 6px rgba(0,0,0,0.35);
+        letter-spacing:0.08em; text-align:center;
+        background:rgba(255,255,255,0.10);
+        border:1px solid rgba(232,180,199,0.42);
+        border-radius:50px; padding:11px 26px; cursor:pointer;
+        animation:pulse 1.8s ease-in-out infinite;
+        -webkit-tap-highlight-color:transparent;
+      }
+      @keyframes pulse { 0%,100%{opacity:0.72} 50%{opacity:1} }
+    `;
+    document.head.appendChild(s);
+
+    document.getElementById('openBtn').addEventListener('click', () => {
+      // Dentro del gesto del usuario → el navegador siempre permite play()
+      bgMusic.loop = false;
+      bgMusic.play().catch(() => {});
+
+      // Ocultar splash con fade
+      splash.classList.add('hide');
+      splash.addEventListener('animationend', () => splash.remove(), { once: true });
+
+      // Revelar la carta suavemente
+      setTimeout(() => {
+        mainContent.style.transition = 'opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1)';
+        mainContent.style.opacity    = '1';
+        mainContent.style.transform  = 'translateY(0)';
+      }, 80);
+    });
   </script>
 
 </body>
