@@ -24,12 +24,16 @@
       --shadow-paper: 0 12px 60px rgba(60,20,15,0.20), 0 2px 8px rgba(60,20,15,0.10);
     }
 
-    html { scroll-behavior: smooth; }
+    html { 
+      scroll-behavior: smooth;
+      height: -webkit-fill-available; /* Ajuste para Safari iOS */
+    }
 
     body {
       font-family: 'DM Sans', sans-serif;
       background-color: #1a200a;
-      min-height: 100dvh;
+      min-height: 100vh;
+      min-height: -webkit-fill-available; /* Ajuste para Safari iOS */
       overflow-x: hidden;
       position: relative;
     }
@@ -37,7 +41,8 @@
     /* Fondo fijo — aminlindo.jpg */
     body::after {
       content: '';
-      position: fixed; inset: 0;
+      position: fixed; 
+      top: 0; left: 0; right: 0; bottom: 0;
       background-image: url('aminlindo.jpg');
       background-size: cover;
       background-position: center;
@@ -49,7 +54,8 @@
     /* Overlay primaveral muy sutil */
     body::before {
       content: '';
-      position: fixed; inset: 0;
+      position: fixed; 
+      top: 0; left: 0; right: 0; bottom: 0;
       background: linear-gradient(
         160deg,
         rgba(240,255,240,0.06) 0%,
@@ -60,229 +66,25 @@
       z-index: -1;
     }
 
-    /* ═══ CONTENIDO PRINCIPAL ═══ */
-    #main-content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 44px 0 64px;
-      opacity: 0;
-      transform: translateY(26px);
-      transition: none; /* Se anima con JS al abrir */
-    }
-
-    /* ═══ CARTA / PERGAMINO ═══ */
-    .letter-wrap {
-      width: min(92vw, 420px);
-      background: var(--paper-bg);
-      border-radius: 18px 18px 14px 14px;
-      box-shadow: var(--shadow-paper);
-      border: 1px solid rgba(200,230,200,0.35);
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Franja superior — degradado primaveral */
-    .letter-wrap::before {
-      content: '';
-      display: block;
-      height: 4px;
-      background: linear-gradient(90deg,
-        #f7c8d4, #E8B4C7, #b8dfc0, #6ab478, #b8dfc0, #E8B4C7, #f7c8d4);
-      background-size: 280% 100%;
-      animation: shimmer 5s linear infinite;
-    }
-
-    @keyframes shimmer {
-      0%   { background-position: 0% 0%; }
-      100% { background-position: 280% 0%; }
-    }
-
-    .letter-inner {
-      padding: 32px 26px 44px;
-    }
-
-    /* ─── Flores decorativas ─── */
-    .spring-flowers {
-      text-align: center;
-      font-size: 26px;
-      margin-bottom: 10px;
-      letter-spacing: 6px;
-      animation: flowersFloat 3.2s ease-in-out infinite;
-    }
-
-    @keyframes flowersFloat {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-5px); }
-    }
-
-    /* ─── Título principal ─── */
-    .letter-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 600;
-      font-style: italic;
-      color: var(--text-title);
-      text-align: center;
-      line-height: 1.2;
-      margin-bottom: 6px;
-      letter-spacing: 0.02em;
-    }
-
-    /* ─── Subtítulo ─── */
-    .letter-sub {
-      text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.76rem;
-      font-weight: 300;
-      color: var(--text-soft);
-      letter-spacing: 0.20em;
-      text-transform: uppercase;
-      margin-bottom: 26px;
-    }
-
-    /* ─── Divisor primaveral ─── */
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 26px;
-    }
-
-    .divider span {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(106,180,120,0.55), transparent);
-    }
-
-    .divider i { font-style:normal; font-size:14px; }
-
-    /* ─── Cuerpo de la carta ─── */
-    .letter-body {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.06rem;
-      font-weight: 400;
-      line-height: 1.95;
-      color: var(--text-body);
-      text-align: justify;
-    }
-
-    .letter-body p { margin-bottom: 20px; }
-    .letter-body p:last-child { margin-bottom: 0; }
-
-    /* ─── Divisor firma ─── */
-    .sign-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(200,180,190,0.45), transparent);
-      margin: 30px 0 20px;
-    }
-
-    /* ─── Firma ─── */
-    .letter-sign {
-      text-align: center;
-    }
-
-    .sign-from {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.82rem;
-      font-weight: 300;
-      font-style: italic;
-      color: var(--text-soft);
-      margin-bottom: 4px;
-    }
-
-    .sign-name {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: var(--rose-dark);
-      line-height: 1.1;
-    }
-
-    /* ─── Posdata ─── */
-    .postdata {
-      margin-top: 24px;
-      padding: 14px 16px;
-      background: rgba(232,180,199,0.10);
-      border-left: 2px solid rgba(232,180,199,0.50);
-      border-radius: 0 8px 8px 0;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.88rem;
-      font-weight: 300;
-      font-style: italic;
-      color: var(--text-soft);
-      line-height: 1.7;
-    }
-
-    .postdata strong { color: var(--rose-dark); font-weight: 500; }
-
-    /* ─── Fecha ─── */
-    .letter-date {
-      text-align: center;
-      margin-top: 22px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.80rem;
-      font-weight: 300;
-      font-style: italic;
-      color: var(--text-soft);
-      letter-spacing: 0.18em;
-    }
-
-    /* ═══ CIERRE — símbolo primaveral ═══ */
-    .spring-close {
-      margin-top: 40px;
-      text-align: center;
-    }
-
-    .spring-close .flowers-big {
-      font-size: 2rem;
-      letter-spacing: 8px;
-      animation: flowersFloat 3s ease-in-out infinite;
-    }
-
-    .spring-close .close-label {
-      display: block;
-      margin-top: 8px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.68rem;
-      font-style: italic;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(255,235,242,0.60);
-    }
-
-    /* ═══ FOOTER ═══ */
-    .page-footer {
-      margin-top: 32px;
-      text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.65rem;
-      font-style: italic;
-      color: rgba(255,235,242,0.45);
-      letter-spacing: 0.08em;
-      padding-bottom: 16px;
-    }
-
     /* ═══ PANTALLA DE BIENVENIDA (SPLASH) ═══ */
     #splash {
-      position: fixed; inset: 0; z-index: 300;
+      position: fixed; 
+      top: 0; left: 0; right: 0; bottom: 0; /* Compatible con iOS antiguo */
+      z-index: 300;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center; gap: 18px;
-      /* Fondo oscuro para tapar la carta transparente de atrás */
-      background: rgba(26, 32, 10, 0.95);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      animation: splashIn 0.6s ease both;
+      /* Fondo oscuro sólido para Safari */
+      background: rgba(26, 32, 10, 0.98);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      opacity: 1;
+      transition: opacity 0.6s ease;
     }
-    @keyframes splashIn { from { opacity: 0; } to { opacity: 1; } }
     
     #splash.hide { 
-      animation: splashOut 0.6s ease forwards; 
+      opacity: 0;
       pointer-events: none; 
     }
-    @keyframes splashOut { from { opacity: 1; } to { opacity: 0; } }
 
     .splash-flowers {
       font-size: 2.2rem; letter-spacing: 8px;
@@ -308,7 +110,6 @@
       text-shadow: 0 1px 6px rgba(0,0,0,0.5);
       letter-spacing: 0.08em; 
       text-align: center;
-      /* Color sólido para que el botón se vea bien */
       background: var(--rose-mid);
       border: none;
       border-radius: 50px; 
@@ -322,105 +123,299 @@
       0%, 100% { transform: scale(1); opacity: 0.9; } 
       50% { transform: scale(1.05); opacity: 1; } 
     }
+
+    /* ═══ CONTENIDO PRINCIPAL ═══ */
+    #main-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 44px 0 64px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    #main-content.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══ CARTA / PERGAMINO ═══ */
+    .letter-wrap {
+      width: min(92vw, 420px);
+      background: var(--paper-bg);
+      border-radius: 18px 18px 14px 14px;
+      box-shadow: var(--shadow-paper);
+      border: 1px solid rgba(200,230,200,0.35);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Franja superior */
+    .letter-wrap::before {
+      content: '';
+      display: block;
+      height: 4px;
+      background: linear-gradient(90deg,
+        #f7c8d4, #E8B4C7, #b8dfc0, #6ab478, #b8dfc0, #E8B4C7, #f7c8d4);
+      background-size: 280% 100%;
+      animation: shimmer 5s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 0% 0%; }
+      100% { background-position: 280% 0%; }
+    }
+
+    .letter-inner {
+      padding: 32px 26px 44px;
+    }
+
+    /* Flores decorativas */
+    .spring-flowers {
+      text-align: center;
+      font-size: 26px;
+      margin-bottom: 10px;
+      letter-spacing: 6px;
+      animation: flowersFloat 3.2s ease-in-out infinite;
+    }
+    @keyframes flowersFloat {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-5px); }
+    }
+
+    /* Títulos */
+    .letter-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--text-title);
+      text-align: center;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    .letter-sub {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.76rem;
+      font-weight: 300;
+      color: var(--text-soft);
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+
+    /* Divisor */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 26px;
+    }
+    .divider span {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(106,180,120,0.55), transparent);
+    }
+    .divider i { font-style:normal; font-size:14px; }
+
+    /* Cuerpo del mensaje */
+    .letter-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.06rem;
+      font-weight: 400;
+      line-height: 1.95;
+      color: var(--text-body);
+      text-align: justify;
+    }
+    .letter-body p { margin-bottom: 20px; }
+    .letter-body p:last-child { margin-bottom: 0; }
+    .letter-body strong { color: var(--rose-dark); font-weight: 600; }
+
+    /* Firma */
+    .sign-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,180,190,0.45), transparent);
+      margin: 30px 0 20px;
+    }
+    .letter-sign { text-align: center; }
+    .sign-from {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+    .sign-name {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--rose-dark);
+      line-height: 1.1;
+    }
+
+    /* Posdata */
+    .postdata {
+      margin-top: 24px;
+      padding: 14px 16px;
+      background: rgba(232,180,199,0.10);
+      border-left: 2px solid rgba(232,180,199,0.50);
+      border-radius: 0 8px 8px 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-soft);
+      line-height: 1.7;
+    }
+    .postdata strong { color: var(--rose-dark); font-weight: 500; }
+
+    /* Fecha */
+    .letter-date {
+      text-align: center;
+      margin-top: 22px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.80rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-soft);
+      letter-spacing: 0.18em;
+    }
+
+    /* Cierre */
+    .spring-close {
+      margin-top: 40px;
+      text-align: center;
+    }
+    .spring-close .flowers-big {
+      font-size: 2rem;
+      letter-spacing: 8px;
+      animation: flowersFloat 3s ease-in-out infinite;
+    }
+    .spring-close .close-label {
+      display: block;
+      margin-top: 8px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.68rem;
+      font-style: italic;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,235,242,0.80);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+    }
+
+    /* Footer */
+    .page-footer {
+      margin-top: 32px;
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.65rem;
+      font-style: italic;
+      color: rgba(255,235,242,0.70);
+      letter-spacing: 0.08em;
+      padding-bottom: 16px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+    }
   </style>
 </head>
 <body>
 
-  <!-- Elemento de Audio -->
+  <!-- Audio: Sonará al tocar el botón -->
   <audio id="bgMusic" src="primaveraamin.mp3" preload="auto"></audio>
 
-  <!-- Pantalla de bienvenida que cubre toda la vista -->
+  <!-- PANTALLA DE BIENVENIDA -->
   <div id="splash">
     <div class="splash-flowers">🌸 🌷 🌼</div>
     <p class="splash-hint">Feliz primavera 💗</p>
     <button id="openBtn" class="splash-btn">Tocá para abrir tu carta 🌸</button>
   </div>
 
-  <!-- Contenido Principal de la Carta (Oculto inicialmente) -->
+  <!-- CARTA PRINCIPAL -->
   <div id="main-content">
-
     <div class="letter-wrap">
       <div class="letter-inner">
 
-        <!-- Flores decorativas -->
         <div class="spring-flowers">🌸 🌷 🌸</div>
-
-        <!-- Título -->
         <h1 class="letter-title">Feliz primavera 💗</h1>
         <p class="letter-sub">Una carta especial para vos</p>
 
-        <!-- Divisor -->
         <div class="divider">
           <span></span><i>🌿</i><span></span>
         </div>
 
-        <!-- INICIO DEL MENSAJE -->
+        <!-- INICIO DEL MENSAJE TEXTO REAL -->
         <div class="letter-body">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-          <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
-          <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+          <p>Posiblemente te estés preguntando a qué se debe esto. La verdad es que, así como te mostré, incluso antes de que me enviaras aquel reel, yo ya tenía la intención de enviarte este detalle. Lo cómico de la situación es que probablemente ibas a recibir sin tener ningún contexto, pero por cosas del universo terminamos hablando antes.</p>
+          
+          <p>Quería darte este detalle simplemente para que entiendas que <strong>estamos en paz.</strong> No tengo ningún inconveniente contigo y como siempre te dije, estoy abierto a conversar de manera sincera, pero si algún día se da esa conversación, necesito que la iniciativa nazca de vos.</p>
+          
+          <p>Espero que el inicio de esta nueva estación traiga mucha felicidad, tranquilidad y estabilidad emocional para vos🌸</p>
+          
+          <p>Hay personas que, después de una sola conversación, te hacen soñar en grande y hay otras que pueden apagar tu ambición en un minuto. <strong>Elegí bien a quién mantenés cerca.</strong></p>
+          
+          <p>Y tal vez tu jardín no está creciendo porque cada vez que nace una flor, la cortás para demostrarle a alguien que sos jardinero🌱</p>
+          
+          <p><strong>Podés volver a empezar todas las veces que quieras.</strong></p>
+          
+          <p>Éxitos para el hombrecito con el corazón más bondadoso que conocí 🫶🏻</p>
         </div>
-        <!-- FIN DEL MENSAJE -->
+        <!-- FIN DEL MENSAJE TEXTO REAL -->
 
-        <!-- Divisor firma -->
         <div class="sign-divider"></div>
 
-        <!-- Firma -->
         <div class="letter-sign">
           <p class="sign-from">Con todo el cariño del mundo,</p>
           <span class="sign-name">De Mau💗</span>
         </div>
 
-        <!-- Posdata -->
         <p class="postdata">
           <strong>P.D.:</strong> me encantó tanto esta imagen que usé de fondo pero nunca me animé a responderte ni a darle like pero saliste muy lindo. 💗
         </p>
 
-        <!-- Fecha -->
         <p class="letter-date">22 · 09 · 2026</p>
 
-      </div><!-- /letter-inner -->
-    </div><!-- /letter-wrap -->
+      </div>
+    </div>
 
-    <!-- Cierre primaveral -->
     <div class="spring-close">
       <div class="flowers-big">🌸 🌷 🌼</div>
       <span class="close-label">Que florezca todo lo lindo 🌿</span>
     </div>
 
     <p class="page-footer">Hecho solo para vos por Mauro Portillo 🌹</p>
-
   </div>
 
   <script>
+    // Manejo de eventos seguro para Safari en iPhone
     const bgMusic = document.getElementById('bgMusic');
-    const mainContent = document.getElementById('main-content');
     const splash = document.getElementById('splash');
+    const mainContent = document.getElementById('main-content');
     const openBtn = document.getElementById('openBtn');
 
-    openBtn.addEventListener('click', () => {
-      // 1. Reproducir la música al hacer clic
-      bgMusic.loop = false;
-      bgMusic.play().catch((error) => {
-        console.log("No se pudo reproducir el audio de forma automática:", error);
+    openBtn.addEventListener('click', function() {
+      // 1. Reproducir música (obligatorio estar dentro de un evento click para iPhone)
+      bgMusic.play().catch(function(error) {
+        console.log("Audio autoplay prevenido por el navegador.", error);
       });
 
-      // 2. Ocultar la pantalla de bienvenida
+      // 2. Ocultar el Splash
       splash.classList.add('hide');
-      
-      // Eliminar el splash del código una vez que termine su animación de salida
-      splash.addEventListener('animationend', () => {
-        splash.remove();
-      }, { once: true });
 
-      // 3. Revelar la carta deslizando suavemente desde abajo
-      setTimeout(() => {
-        mainContent.style.transition = 'opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1)';
-        mainContent.style.opacity    = '1';
-        mainContent.style.transform  = 'translateY(0)';
-      }, 100);
+      // 3. Mostrar la carta con un pequeño retraso para la animación
+      setTimeout(function() {
+        mainContent.classList.add('show');
+      }, 300);
+
+      // 4. Remover el splash del DOM para que no estorbe (después de 600ms)
+      setTimeout(function() {
+        splash.style.display = 'none';
+      }, 600);
     });
   </script>
 
